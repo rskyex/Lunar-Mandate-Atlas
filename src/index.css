@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg-primary: #0d1117;
+  --color-bg-card: #161b22;
+  --color-bg-elevated: #1c2129;
+  --color-border: #21262d;
+  --color-border-bright: #30363d;
+  --color-accent-cyan: #39d0d8;
+  --color-accent-amber: #f5a623;
+  --color-accent-red: #f85149;
+  --color-text-primary: #e6edf3;
+  --color-text-secondary: #8b949e;
+  --color-text-muted: #484f58;
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg-primary);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg-primary);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border-bright);
+  border-radius: 3px;
+}
+
+/* Glow effects */
+.glow-cyan {
+  box-shadow: 0 0 20px rgba(57, 208, 216, 0.15);
+}
+.glow-amber {
+  box-shadow: 0 0 20px rgba(245, 166, 35, 0.15);
+}
+.glow-red {
+  box-shadow: 0 0 20px rgba(248, 81, 73, 0.15);
+}
+
+/* Monospace data styling */
+.data-mono {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  letter-spacing: -0.01em;
+}
+
+/* Tag pill */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+.tag-cyan {
+  background: rgba(57, 208, 216, 0.12);
+  color: #39d0d8;
+  border: 1px solid rgba(57, 208, 216, 0.25);
+}
+.tag-amber {
+  background: rgba(245, 166, 35, 0.12);
+  color: #f5a623;
+  border: 1px solid rgba(245, 166, 35, 0.25);
+}
+.tag-red {
+  background: rgba(248, 81, 73, 0.12);
+  color: #f85149;
+  border: 1px solid rgba(248, 81, 73, 0.25);
+}
+
+/* Detail overlay backdrop */
+.overlay-backdrop {
+  background: rgba(1, 4, 9, 0.8);
+  backdrop-filter: blur(8px);
+}
