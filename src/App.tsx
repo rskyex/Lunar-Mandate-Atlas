@@ -1,13 +1,15 @@
 import { useState } from 'react';
+import { HomeView } from './views/HomeView';
 import { AuthorityMap } from './views/AuthorityMap';
 import { DiscretionRegistry } from './views/DiscretionRegistry';
 import { InfrastructureNexus } from './views/InfrastructureNexus';
 import { CoalitionTracker } from './views/CoalitionTracker';
 import { DetailOverlay } from './components/DetailOverlay';
 
-type View = 'authority-map' | 'discretion-registry' | 'infrastructure-nexus' | 'coalition-tracker';
+type View = 'home' | 'authority-map' | 'discretion-registry' | 'infrastructure-nexus' | 'coalition-tracker';
 
 const NAV_ITEMS: { id: View; label: string; shortLabel: string }[] = [
+  { id: 'home', label: 'Home', shortLabel: 'Home' },
   { id: 'authority-map', label: 'Authority Map', shortLabel: 'Map' },
   { id: 'discretion-registry', label: 'Discretion Registry', shortLabel: 'Registry' },
   { id: 'infrastructure-nexus', label: 'Infrastructure Nexus', shortLabel: 'Infra' },
@@ -15,11 +17,15 @@ const NAV_ITEMS: { id: View; label: string; shortLabel: string }[] = [
 ];
 
 function App() {
-  const [activeView, setActiveView] = useState<View>('authority-map');
+  const [activeView, setActiveView] = useState<View>('home');
   const [selectedDocId, setSelectedDocId] = useState<string | null>(null);
+
+  const navigateTo = (view: string) => setActiveView(view as View);
 
   const renderView = () => {
     switch (activeView) {
+      case 'home':
+        return <HomeView onNavigate={navigateTo} />;
       case 'authority-map':
         return <AuthorityMap onSelectDocument={setSelectedDocId} />;
       case 'discretion-registry':
@@ -38,14 +44,14 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-14">
             {/* Logo / Title */}
-            <div className="flex items-center gap-3">
+            <button onClick={() => setActiveView('home')} className="flex items-center gap-3 cursor-pointer">
               <div className="w-2 h-2 rounded-full bg-accent-cyan animate-pulse" />
               <h1 className="text-sm font-semibold text-text-primary tracking-tight">
                 <span className="data-mono text-accent-cyan">LGAT</span>
                 <span className="text-text-muted mx-2">|</span>
                 <span className="hidden sm:inline text-text-secondary font-normal">Lunar Governance Authority Tracker</span>
               </h1>
-            </div>
+            </button>
 
             {/* Navigation */}
             <nav className="flex items-center gap-1">
@@ -68,20 +74,22 @@ function App() {
         </div>
       </header>
 
-      {/* Subheader — Core Thesis */}
-      <div className="border-b border-border bg-bg-card/40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
-          <p className="text-xs text-text-muted leading-relaxed">
-            <span className="data-mono text-accent-red">CORE THESIS:</span>{' '}
-            Governance is not cooperation — it is{' '}
-            <span className="text-text-secondary">who holds Interpretive Control</span> over ambiguous terms.
-            Artemis and ILRS are parallel{' '}
-            <span className="text-accent-red">authority-accumulation engines</span> that translate{' '}
-            <span className="text-accent-cyan">universalist language</span> into{' '}
-            <span className="text-accent-amber">concrete political authority</span>.
-          </p>
+      {/* Subheader — Core Thesis (hidden on home) */}
+      {activeView !== 'home' && (
+        <div className="border-b border-border bg-bg-card/40">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+            <p className="text-xs text-text-muted leading-relaxed">
+              <span className="data-mono text-accent-red">CORE THESIS:</span>{' '}
+              Governance is not cooperation — it is{' '}
+              <span className="text-text-secondary">who holds Interpretive Control</span> over ambiguous terms.
+              Artemis and ILRS are parallel{' '}
+              <span className="text-accent-red">authority-accumulation engines</span> that translate{' '}
+              <span className="text-accent-cyan">universalist language</span> into{' '}
+              <span className="text-accent-amber">concrete political authority</span>.
+            </p>
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">

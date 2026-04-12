@@ -1,4 +1,4 @@
-import { COUNTRIES } from '../data';
+import { COUNTRIES, HUMANITY_REFERENTS } from '../data';
 import { TRANSLATION_DEVICE_TYPES, INFRASTRUCTURE_TYPES } from '../data';
 import type { GovernanceDocument, Country } from '../data';
 
@@ -23,14 +23,14 @@ export function DetailOverlay({ documentId, onClose }: DetailOverlayProps) {
 
   const { document: doc, country } = result;
   const translationType = TRANSLATION_DEVICE_TYPES[doc.translationType];
+  const referentInfo = HUMANITY_REFERENTS[doc.humanityReferent];
   const isArtemis = doc.coalition === 'artemis';
-  const accentColor = isArtemis ? 'accent-cyan' : 'accent-amber';
   const tagClass = isArtemis ? 'tag-cyan' : 'tag-amber';
 
   return (
     <div className="fixed inset-0 z-50 overlay-backdrop flex items-center justify-center p-6" onClick={onClose}>
       <div
-        className="bg-bg-card border border-border-bright rounded-xl max-w-2xl w-full max-h-[85vh] overflow-y-auto shadow-2xl"
+        className="bg-bg-card border border-border-bright rounded-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -57,7 +57,7 @@ export function DetailOverlay({ documentId, onClose }: DetailOverlayProps) {
         <div className="p-6 space-y-5">
           {/* Characteristic Formulation — the core quote */}
           <div className={`border-l-4 ${isArtemis ? 'border-l-accent-cyan' : 'border-l-accent-amber'} bg-bg-primary rounded-r-lg p-4`}>
-            <div className={`data-mono text-[10px] text-${accentColor} uppercase tracking-wider mb-2`}>
+            <div className={`data-mono text-[10px] ${isArtemis ? 'text-accent-cyan' : 'text-accent-amber'} uppercase tracking-wider mb-2`}>
               Characteristic Formulation
             </div>
             <blockquote className="text-sm text-text-primary italic leading-relaxed">
@@ -65,39 +65,79 @@ export function DetailOverlay({ documentId, onClose }: DetailOverlayProps) {
             </blockquote>
           </div>
 
-          {/* Authority Mechanism */}
-          <div className="bg-bg-primary border border-border rounded-lg p-4">
-            <div className="data-mono text-[10px] text-accent-red uppercase tracking-wider mb-2">
-              Authority Mechanism
+          {/* ═══ STAGE 1: Humanity Construction ═══ */}
+          <div className="border border-accent-cyan/20 rounded-lg overflow-hidden">
+            <div className="bg-accent-cyan/5 px-4 py-2 border-b border-accent-cyan/20 flex items-center gap-2">
+              <span className="data-mono text-accent-cyan text-[10px] font-semibold bg-accent-cyan/10 px-2 py-0.5 rounded">STAGE 1</span>
+              <span className="data-mono text-[10px] text-accent-cyan uppercase tracking-wider">Humanity Construction</span>
             </div>
-            <p className="text-sm text-text-secondary leading-relaxed">{doc.authorityMechanism}</p>
+            <div className="p-4 space-y-3">
+              <div>
+                <div className="data-mono text-[10px] text-text-muted uppercase mb-1">Referent — Who does this document represent?</div>
+                <p className="text-sm text-text-primary">{doc.stage1.referent}</p>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <div className="data-mono text-[10px] text-text-muted uppercase mb-1">Referent Category</div>
+                  <span className="tag tag-cyan">{referentInfo.label}</span>
+                  <p className="text-xs text-text-muted mt-1">{referentInfo.description}</p>
+                </div>
+                <div>
+                  <div className="data-mono text-[10px] text-text-muted uppercase mb-1">Audience Target</div>
+                  <p className="text-xs text-text-secondary">{doc.stage1.audienceTarget}</p>
+                </div>
+              </div>
+            </div>
           </div>
 
-          {/* Translation Device */}
-          <div className="grid grid-cols-2 gap-4">
-            <div className="border border-border rounded-lg p-3">
-              <div className="data-mono text-[10px] text-text-muted uppercase tracking-wider mb-1">
-                Translation Device
-              </div>
-              <div className={`flex items-center gap-2`}>
-                <span className={`tag tag-${translationType.color}`}>
-                  {translationType.label}
-                </span>
-              </div>
-              <p className="text-xs text-text-muted mt-2">{translationType.description}</p>
+          {/* ═══ STAGE 2: Legitimacy Production ═══ */}
+          <div className="border border-accent-amber/20 rounded-lg overflow-hidden">
+            <div className="bg-accent-amber/5 px-4 py-2 border-b border-accent-amber/20 flex items-center gap-2">
+              <span className="data-mono text-accent-amber text-[10px] font-semibold bg-accent-amber/10 px-2 py-0.5 rounded">STAGE 2</span>
+              <span className="data-mono text-[10px] text-accent-amber uppercase tracking-wider">Legitimacy Production</span>
             </div>
-            <div className="border border-border rounded-lg p-3">
-              <div className="data-mono text-[10px] text-text-muted uppercase tracking-wider mb-1">
-                Humanity Referent
+            <div className="p-4 space-y-3">
+              <div>
+                <div className="data-mono text-[10px] text-text-muted uppercase mb-1">Justificatory Vocabulary — The &ldquo;magic words&rdquo;</div>
+                <div className="flex flex-wrap gap-1.5 mt-1">
+                  {doc.stage2.justificatoryVocabulary.map((word) => (
+                    <span key={word} className="tag tag-amber">{word}</span>
+                  ))}
+                </div>
               </div>
-              <div className="text-sm text-text-primary capitalize">
-                {doc.humanityReferent.replace('_', ' ')}
+              <div>
+                <div className="data-mono text-[10px] text-text-muted uppercase mb-1">Translation Device</div>
+                <div className="flex items-center gap-2 mb-1">
+                  <span className={`tag tag-${translationType.color}`}>{translationType.label}</span>
+                  <span className="text-xs text-text-muted">{translationType.description}</span>
+                </div>
               </div>
-              <p className="text-xs text-text-muted mt-2">
-                {isArtemis
-                  ? 'Artemis emphasizes "Safety and Standards" (Proceduralism)'
-                  : 'ILRS emphasizes appeal to "all countries" (Inclusivity)'}
-              </p>
+              <div>
+                <div className="data-mono text-[10px] text-text-muted uppercase mb-1">Legitimation Narrative</div>
+                <p className="text-sm text-text-secondary leading-relaxed">{doc.stage2.legitimationNarrative}</p>
+              </div>
+            </div>
+          </div>
+
+          {/* ═══ STAGE 3: Authority Architecture ═══ */}
+          <div className="border border-accent-red/20 rounded-lg overflow-hidden">
+            <div className="bg-accent-red/5 px-4 py-2 border-b border-accent-red/20 flex items-center gap-2">
+              <span className="data-mono text-accent-red text-[10px] font-semibold bg-accent-red/10 px-2 py-0.5 rounded">STAGE 3</span>
+              <span className="data-mono text-[10px] text-accent-red uppercase tracking-wider">Authority Architecture</span>
+            </div>
+            <div className="p-4 space-y-3">
+              <div>
+                <div className="data-mono text-[10px] text-accent-red uppercase mb-1">Interpretive Control — Who defines the ambiguous terms?</div>
+                <p className="text-sm text-text-primary font-medium">{doc.stage3.interpretiveControl}</p>
+              </div>
+              <div>
+                <div className="data-mono text-[10px] text-text-muted uppercase mb-1">Discretion Mechanism</div>
+                <p className="text-sm text-text-secondary leading-relaxed">{doc.stage3.discretionMechanism}</p>
+              </div>
+              <div className="border-l-2 border-accent-red/50 pl-3">
+                <div className="data-mono text-[10px] text-accent-red uppercase mb-1">Power Effect</div>
+                <p className="text-sm text-text-secondary leading-relaxed">{doc.stage3.powerEffect}</p>
+              </div>
             </div>
           </div>
 

@@ -6,6 +6,8 @@
 
 import type { Coalition } from './countries';
 
+export type ConfidenceLevel = 'confirmed' | 'stated_intent' | 'reported';
+
 export interface TimelineEvent {
   id: string;
   date: string;
@@ -15,6 +17,7 @@ export interface TimelineEvent {
   significance: string;
   memberCount?: number;
   analyticNote?: string;
+  confidence: ConfidenceLevel;
 }
 
 export const TIMELINE_EVENTS: TimelineEvent[] = [
@@ -25,6 +28,7 @@ export const TIMELINE_EVENTS: TimelineEvent[] = [
     title: 'Outer Space Treaty enters into force',
     coalition: 'dual',
     significance: 'Establishes foundational ambiguity: "province of all mankind" without enforcement mechanism. The discretion points that LGAT tracks originate here.',
+    confidence: 'confirmed',
   },
   {
     id: 'te-002',
@@ -34,6 +38,7 @@ export const TIMELINE_EVENTS: TimelineEvent[] = [
     coalition: 'artemis',
     significance: 'First national legislation asserting resource extraction rights. Unilateral legislative interpretation of OST silence on resources.',
     analyticNote: 'Moral inoculation: frames extraction as "not appropriation" — negative definition strategy.',
+    confidence: 'confirmed',
   },
   {
     id: 'te-003',
@@ -43,6 +48,7 @@ export const TIMELINE_EVENTS: TimelineEvent[] = [
     coalition: 'artemis',
     significance: 'Second state to assert resource rights. Creates a European legal anchor for the "resources ≠ sovereignty" interpretation.',
     analyticNote: 'Displacement: shifts debate from "whether" to "how" extraction occurs — the permission is assumed.',
+    confidence: 'confirmed',
   },
   {
     id: 'te-004',
@@ -53,6 +59,7 @@ export const TIMELINE_EVENTS: TimelineEvent[] = [
     significance: 'Bilateral accord architecture: each state signs individually with the US, accepting a US-drafted normative framework. Bypasses COPUOS multilateral process.',
     memberCount: 8,
     analyticNote: 'Procedural commitment: signing locks in norms. The "critical mass" strategy — enough signatories make the framework de facto international law.',
+    confidence: 'confirmed',
   },
   {
     id: 'te-005',
@@ -63,6 +70,7 @@ export const TIMELINE_EVENTS: TimelineEvent[] = [
     significance: 'Founding bilateral agreement. Establishes two-tier partnership: founding partners (China, Russia) vs. joining partners (all others).',
     memberCount: 2,
     analyticNote: 'Iterative enumeration: the MoU starts the process; scope expands through phases without partner re-consent.',
+    confidence: 'confirmed',
   },
   {
     id: 'te-006',
@@ -71,6 +79,7 @@ export const TIMELINE_EVENTS: TimelineEvent[] = [
     title: 'ILRS Roadmap released',
     coalition: 'ilrs',
     significance: 'Three-phase timeline (2025-2035) published. Partners invited to join phases already architecturally defined by CNSA.',
+    confidence: 'confirmed',
   },
   {
     id: 'te-007',
@@ -80,6 +89,7 @@ export const TIMELINE_EVENTS: TimelineEvent[] = [
     coalition: 'artemis',
     significance: 'Rapid expansion creates normative momentum. Geographic diversity (Americas, Europe, Asia, Middle East, Africa) bolsters legitimacy claims.',
     memberCount: 23,
+    confidence: 'confirmed',
   },
   {
     id: 'te-008',
@@ -90,6 +100,7 @@ export const TIMELINE_EVENTS: TimelineEvent[] = [
     significance: '"Open to all interested countries" — normative appeal to inclusivity while architectural decisions remain with CNSA.',
     memberCount: 10,
     analyticNote: 'The "openness" claim is the legitimation device. Compare Artemis "safety" framing — different vocabulary, same authority-accumulation.',
+    confidence: 'confirmed',
   },
   {
     id: 'te-009',
@@ -100,6 +111,7 @@ export const TIMELINE_EVENTS: TimelineEvent[] = [
     significance: 'Approaching critical mass. More signatories than Moon Agreement (18 ratifications over 40 years).',
     memberCount: 33,
     analyticNote: 'The speed of accumulation itself becomes a legitimation device — "momentum as authority."',
+    confidence: 'confirmed',
   },
   {
     id: 'te-010',
@@ -109,6 +121,7 @@ export const TIMELINE_EVENTS: TimelineEvent[] = [
     coalition: 'artemis',
     significance: 'Infrastructure becomes governance: defining time = defining the coordination layer for all cislunar operations.',
     analyticNote: 'Functional legitimacy in its purest form. No explicit claim to authority — just the technical standard everyone must use.',
+    confidence: 'confirmed',
   },
   {
     id: 'te-011',
@@ -119,6 +132,7 @@ export const TIMELINE_EVENTS: TimelineEvent[] = [
     significance: 'Expanding beyond initial bilateral. Venezuela, South Africa, Pakistan, Egypt join — Global South appeal materializes.',
     memberCount: 12,
     analyticNote: 'Partnership enumeration accelerates. Each new partner validates the "open to all" claim while the architecture remains CNSA-determined.',
+    confidence: 'stated_intent',
   },
   {
     id: 'te-012',
@@ -128,5 +142,27 @@ export const TIMELINE_EVENTS: TimelineEvent[] = [
     coalition: 'artemis',
     significance: 'De facto international norm status. Procedural weight approaching customary international law threshold.',
     memberCount: 43,
+    confidence: 'confirmed',
+  },
+  {
+    id: 'te-013',
+    date: '2025-06',
+    year: 2025,
+    title: 'ILRS Phase 1 construction begins (robotic precursor)',
+    coalition: 'ilrs',
+    significance: 'First physical infrastructure deployed. Operational presence converts plans into spatial facts on the lunar surface.',
+    analyticNote: 'Fait accompli mechanism: once infrastructure is placed, governance must accommodate it rather than precede it.',
+    confidence: 'stated_intent',
+  },
+  {
+    id: 'te-014',
+    date: '2026-01',
+    year: 2026,
+    title: 'India signs Artemis Accords (reported)',
+    coalition: 'artemis',
+    significance: 'Largest dual-aligned state formally joins the Artemis framework, signaling gravitational pull of the procedural commitment model.',
+    memberCount: 45,
+    analyticNote: 'India\'s alignment would be the strongest signal yet that Artemis norms are becoming the default governance framework.',
+    confidence: 'reported',
   },
 ];

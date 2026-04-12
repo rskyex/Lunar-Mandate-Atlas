@@ -1,8 +1,23 @@
 import { TIMELINE_EVENTS } from '../data';
-import type { TimelineEvent } from '../data';
+import type { TimelineEvent, ConfidenceLevel } from '../data';
 
 interface CoalitionTrackerProps {
   onSelectDocument: (docId: string) => void;
+}
+
+const CONFIDENCE_LABELS: Record<ConfidenceLevel, { symbol: string; label: string }> = {
+  confirmed: { symbol: '\u25CF', label: 'Confirmed (signed/ratified)' },
+  stated_intent: { symbol: '\u25D0', label: 'Stated Intent (announced)' },
+  reported: { symbol: '\u25CB', label: 'Reported (press/unconfirmed)' },
+};
+
+function ConfidenceDot({ level, coalition }: { level: ConfidenceLevel; coalition: string }) {
+  const color = coalition === 'artemis' ? 'text-accent-cyan' : coalition === 'ilrs' ? 'text-accent-amber' : 'text-text-muted';
+  return (
+    <span className={`${color} text-sm`} title={CONFIDENCE_LABELS[level].label}>
+      {CONFIDENCE_LABELS[level].symbol}
+    </span>
+  );
 }
 
 function TimelineNode({ event, index }: { event: TimelineEvent; index: number }) {
@@ -28,6 +43,14 @@ function TimelineNode({ event, index }: { event: TimelineEvent; index: number })
     ? 'text-accent-amber'
     : 'text-text-secondary';
 
+  // Confidence-based dot styles
+  const isConfirmed = event.confidence === 'confirmed';
+  const dotStyle = isConfirmed
+    ? dotColor
+    : event.confidence === 'stated_intent'
+    ? `${dotColor} opacity-60`
+    : `bg-transparent border-2 ${isArtemis ? 'border-accent-cyan' : isILRS ? 'border-accent-amber' : 'border-text-muted'}`;
+
   // Position: Artemis on left, ILRS on right, dual centered
   const alignment = isArtemis ? 'pr-[52%]' : isILRS ? 'pl-[52%]' : 'px-[20%]';
 
@@ -35,7 +58,7 @@ function TimelineNode({ event, index }: { event: TimelineEvent; index: number })
     <div className={`relative ${alignment}`}>
       {/* Timeline dot */}
       <div
-        className={`absolute top-4 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full ${dotColor} ring-4 ring-bg-primary z-10`}
+        className={`absolute top-4 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full ${dotStyle} ring-4 ring-bg-primary z-10`}
       />
 
       {/* Connector line */}
@@ -44,10 +67,11 @@ function TimelineNode({ event, index }: { event: TimelineEvent; index: number })
       }`} />
 
       {/* Content card */}
-      <div className={`border ${borderColor} rounded-lg p-4 bg-bg-card mb-4 relative`}>
+      <div className={`border ${borderColor} rounded-lg p-4 bg-bg-card mb-4 relative ${!isConfirmed ? 'opacity-85' : ''}`}>
         <div className="flex items-start justify-between mb-2">
           <div>
             <div className="flex items-center gap-2 mb-1">
+              <ConfidenceDot level={event.confidence} coalition={event.coalition} />
               <span className="data-mono text-[10px] text-text-muted">{event.date}</span>
               {event.memberCount && (
                 <span className={`data-mono text-[10px] ${labelColor}`}>
@@ -172,13 +196,20 @@ export function CoalitionTracker(_props: CoalitionTrackerProps) {
 
       {/* Timeline */}
       <div>
-        <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center justify-between mb-2">
           <h3 className="data-mono text-sm text-text-secondary">TIMELINE</h3>
           <div className="flex items-center gap-4 text-[10px] data-mono">
-            <span className="text-accent-cyan">← ARTEMIS</span>
+            <span className="text-accent-cyan">&larr; ARTEMIS</span>
             <span className="text-text-muted">|</span>
-            <span className="text-accent-amber">ILRS →</span>
+            <span className="text-accent-amber">ILRS &rarr;</span>
           </div>
+        </div>
+        {/* Confidence Legend */}
+        <div className="flex items-center gap-5 mb-4 text-[10px] data-mono text-text-muted">
+          <span className="uppercase tracking-wider">Confidence:</span>
+          <span className="flex items-center gap-1"><span className="text-text-secondary">{CONFIDENCE_LABELS.confirmed.symbol}</span> Confirmed</span>
+          <span className="flex items-center gap-1"><span className="text-text-secondary">{CONFIDENCE_LABELS.stated_intent.symbol}</span> Stated Intent</span>
+          <span className="flex items-center gap-1"><span className="text-text-secondary">{CONFIDENCE_LABELS.reported.symbol}</span> Reported</span>
         </div>
 
         {/* Central timeline */}
