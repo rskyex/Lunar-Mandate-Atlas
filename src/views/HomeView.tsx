@@ -16,19 +16,40 @@ export function HomeView({ onNavigate }: HomeViewProps) {
 
   return (
     <div className="space-y-8">
-      {/* Hero Title */}
-      <div className="text-center pt-8 pb-4">
-        <div className="flex items-center justify-center gap-3 mb-4">
-          <div className="w-2 h-2 rounded-full bg-accent-cyan animate-pulse" />
-          <div className="w-2 h-2 rounded-full bg-accent-amber animate-pulse" style={{ animationDelay: '0.5s' }} />
-          <div className="w-2 h-2 rounded-full bg-accent-red animate-pulse" style={{ animationDelay: '1s' }} />
+      {/* Hero Title — Lunar Horizon */}
+      <div className="lunar-hero rounded-xl border border-border bg-bg-card/50 pt-12 pb-10 px-6 moon-glow lunar-horizon">
+        {/* Orbital dots */}
+        <div className="flex items-center justify-center gap-4 mb-6">
+          <div className="orbit-dot w-1.5 h-1.5 rounded-full bg-accent-cyan" />
+          <div className="orbit-dot w-1 h-1 rounded-full bg-text-muted" style={{ animationDelay: '0.4s' }} />
+          <div className="orbit-dot w-2 h-2 rounded-full bg-accent-cyan/30 border border-accent-cyan/50" style={{ animationDelay: '0.8s' }} />
+          <div className="orbit-dot w-1 h-1 rounded-full bg-text-muted" style={{ animationDelay: '1.2s' }} />
+          <div className="orbit-dot w-2 h-2 rounded-full bg-accent-amber/30 border border-accent-amber/50" style={{ animationDelay: '1.6s' }} />
+          <div className="orbit-dot w-1 h-1 rounded-full bg-text-muted" style={{ animationDelay: '2.0s' }} />
+          <div className="orbit-dot w-1.5 h-1.5 rounded-full bg-accent-red" style={{ animationDelay: '2.4s' }} />
         </div>
-        <h1 className="text-[2.5rem] font-semibold text-text-primary leading-tight tracking-tight">
-          Lunar Governance Authority Tracker
-        </h1>
-        <p className="text-[0.9rem] text-text-secondary mt-3 max-w-2xl mx-auto leading-relaxed">
-          A forensic analysis of how universalist language allocates institutional authority in cislunar space.
-        </p>
+
+        <div className="text-center relative z-10">
+          <div className="data-mono text-[10px] text-text-muted uppercase tracking-[0.3em] mb-3">Cislunar Governance Research</div>
+          <h1 className="text-[2.5rem] font-semibold text-text-primary leading-tight tracking-tight">
+            Lunar Governance
+            <br />
+            <span className="bg-gradient-to-r from-accent-cyan via-text-primary to-accent-amber bg-clip-text text-transparent">
+              Authority Tracker
+            </span>
+          </h1>
+          <p className="text-[0.9rem] text-text-secondary mt-4 max-w-2xl mx-auto leading-relaxed">
+            A forensic analysis of how universalist language allocates institutional authority in cislunar space.
+          </p>
+          {/* Coordinate readout */}
+          <div className="flex items-center justify-center gap-6 mt-5 data-mono text-[10px] text-text-muted">
+            <span>SOUTH POLE &middot; 89.9&deg;S</span>
+            <span className="text-border-bright">|</span>
+            <span>SHACKLETON CRATER</span>
+            <span className="text-border-bright">|</span>
+            <span>CONTESTED TERRAIN</span>
+          </div>
+        </div>
       </div>
 
       {/* Summary Metrics Bar */}
@@ -79,7 +100,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
       </div>
 
       {/* Concept Note — The Double Movement */}
-      <div className="bg-bg-card border border-border rounded-lg p-6">
+      <div className="bg-bg-card border border-border rounded-lg p-6 lunar-topo lunar-surface">
         <div className="flex items-center gap-2 mb-4">
           <div className="w-1 h-5 bg-accent-red rounded" />
           <h2 className="data-mono text-accent-red text-sm">THE DOUBLE MOVEMENT</h2>
@@ -102,7 +123,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
 
       {/* Three-Stage Framework Explanation */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-bg-card border border-accent-cyan/20 rounded-lg p-5">
+        <div className="bg-bg-card border border-accent-cyan/20 rounded-lg p-5 lunar-surface">
           <div className="flex items-center gap-2 mb-3">
             <span className="data-mono text-accent-cyan text-xs font-semibold bg-accent-cyan/10 px-2 py-0.5 rounded">STAGE 1</span>
           </div>
@@ -113,7 +134,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
             which actors can claim to act on humanity&apos;s behalf.
           </p>
         </div>
-        <div className="bg-bg-card border border-accent-amber/20 rounded-lg p-5">
+        <div className="bg-bg-card border border-accent-amber/20 rounded-lg p-5 lunar-surface">
           <div className="flex items-center gap-2 mb-3">
             <span className="data-mono text-accent-amber text-xs font-semibold bg-accent-amber/10 px-2 py-0.5 rounded">STAGE 2</span>
           </div>
@@ -124,7 +145,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
             of specific institutional arrangements.
           </p>
         </div>
-        <div className="bg-bg-card border border-accent-red/20 rounded-lg p-5">
+        <div className="bg-bg-card border border-accent-red/20 rounded-lg p-5 lunar-surface">
           <div className="flex items-center gap-2 mb-3">
             <span className="data-mono text-accent-red text-xs font-semibold bg-accent-red/10 px-2 py-0.5 rounded">STAGE 3</span>
           </div>

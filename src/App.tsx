@@ -40,7 +40,7 @@ function App() {
   return (
     <div className="min-h-screen bg-bg-primary">
       {/* Top Bar */}
-      <header className="border-b border-border bg-bg-card/80 backdrop-blur-sm sticky top-0 z-40">
+      <header className="border-b border-border bg-bg-card/80 backdrop-blur-sm sticky top-0 z-40 lunar-horizon">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-14">
             {/* Logo / Title */}
