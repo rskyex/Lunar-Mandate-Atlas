@@ -160,6 +160,111 @@ export function HomeView({ onNavigate }: HomeViewProps) {
           <div className="text-xs text-text-muted mt-1">Artemis vs. ILRS timeline</div>
         </button>
       </div>
+
+      {/* Researcher */}
+      <div className="bg-bg-card border border-border rounded-lg p-6">
+        <div className="flex items-center gap-2 mb-4">
+          <div className="w-1 h-5 bg-text-secondary rounded" />
+          <h2 className="data-mono text-text-secondary text-sm">RESEARCHER</h2>
+        </div>
+        <div className="space-y-3">
+          <p className="text-sm text-text-primary font-medium">
+            <a href="https://risakoyanagi.com" target="_blank" rel="noopener noreferrer" className="hover:text-accent-cyan transition-colors">
+              Risa Koyanagi
+            </a>
+          </p>
+          <p className="text-xs text-text-secondary leading-relaxed">
+            Cambridge Future Scholar and researcher working across space, nuclear, and emerging technology governance
+            and strategic risk. Her work focuses on legitimation, dual-use systems, and authority architecture.
+            She also designs public-facing research platforms on AI governance, strategic infrastructure risk,
+            and interpretive systems.
+          </p>
+          <div className="pt-1">
+            <a
+              href="https://risakoyanagi.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="data-mono text-xs text-accent-cyan hover:text-accent-cyan/80 transition-colors"
+            >
+              risakoyanagi.com
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {/* Faultline Research Platform */}
+      <div className="bg-bg-card border border-border rounded-lg p-6">
+        <div className="flex items-center gap-2 mb-4">
+          <div className="w-1 h-5 bg-accent-cyan rounded" />
+          <h2 className="data-mono text-accent-cyan text-sm">
+            <a href="https://faultline-nqmm.vercel.app/" target="_blank" rel="noopener noreferrer" className="hover:text-accent-cyan/80 transition-colors">
+              FAULTLINE
+            </a>
+          </h2>
+          <span className="text-xs text-text-muted">Research Platform</span>
+        </div>
+        <p className="text-xs text-text-secondary leading-relaxed mb-4">
+          LGAT is part of Faultline, a suite of public-facing research dashboards that map governance structures,
+          strategic risk, and authority architecture across critical infrastructure domains.
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <a
+            href="https://faultline-nqmm.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="border border-border rounded-lg p-3 hover:border-accent-cyan/40 transition-colors block"
+          >
+            <div className="data-mono text-[10px] text-accent-cyan uppercase tracking-wider mb-1">Hub</div>
+            <div className="text-sm text-text-primary">Faultline</div>
+            <div className="text-xs text-text-muted mt-0.5">Main research platform</div>
+          </a>
+          <a
+            href="https://globalnuclearinfrastructureatlas.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="border border-border rounded-lg p-3 hover:border-accent-amber/40 transition-colors block"
+          >
+            <div className="data-mono text-[10px] text-accent-amber uppercase tracking-wider mb-1">Module</div>
+            <div className="text-sm text-text-primary">Global Nuclear Infrastructure Atlas</div>
+            <div className="text-xs text-text-muted mt-0.5">Nuclear governance and strategic risk</div>
+          </a>
+          <a
+            href="https://orbitalrisktracker.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="border border-border rounded-lg p-3 hover:border-accent-cyan/40 transition-colors block"
+          >
+            <div className="data-mono text-[10px] text-accent-cyan uppercase tracking-wider mb-1">Module</div>
+            <div className="text-sm text-text-primary">Orbital Risk Tracker</div>
+            <div className="text-xs text-text-muted mt-0.5">Space domain risk and debris governance</div>
+          </a>
+          <a
+            href="https://cyber-escalation-atlas.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="border border-border rounded-lg p-3 hover:border-accent-red/40 transition-colors block"
+          >
+            <div className="data-mono text-[10px] text-accent-red uppercase tracking-wider mb-1">Module</div>
+            <div className="text-sm text-text-primary">Cyber Escalation Atlas</div>
+            <div className="text-xs text-text-muted mt-0.5">Cyber conflict and escalation dynamics</div>
+          </a>
+          <a
+            href="https://space-mandate-atlas.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="border border-border rounded-lg p-3 hover:border-accent-cyan/40 transition-colors block"
+          >
+            <div className="data-mono text-[10px] text-accent-cyan uppercase tracking-wider mb-1">Module</div>
+            <div className="text-sm text-text-primary">Space Mandate Atlas</div>
+            <div className="text-xs text-text-muted mt-0.5">Space governance mandate mapping</div>
+          </a>
+        </div>
+      </div>
+
+      {/* Copyright */}
+      <div className="text-center text-[10px] data-mono text-text-muted pt-2">
+        All rights reserved Risa Koyanagi
+      </div>
     </div>
   );
 }

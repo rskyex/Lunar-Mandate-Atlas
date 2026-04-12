@@ -100,8 +100,14 @@ function App() {
       <footer className="border-t border-border mt-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between text-[10px] data-mono text-text-muted">
-            <span>LGAT v1.0 — Coding logic derived from Koyanagi (Cambridge, 2026)</span>
-            <span>Beetham-Koyanagi Legitimation Triad Framework</span>
+            <span>All rights reserved Risa Koyanagi</span>
+            <span>
+              Part of{' '}
+              <a href="https://faultline-nqmm.vercel.app/" target="_blank" rel="noopener noreferrer" className="text-accent-cyan hover:text-accent-cyan/80 transition-colors">
+                Faultline
+              </a>
+              {' '}Research Platform
+            </span>
           </div>
         </div>
       </footer>
