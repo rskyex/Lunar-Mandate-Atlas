@@ -1,73 +1,56 @@
-# React + TypeScript + Vite
+# LGAT — Lunar Governance Authority Tracker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A forensic analysis of how universalist language allocates institutional authority in cislunar space. Built on the **Beetham-Koyanagi Legitimation Triad** framework.
 
-Currently, two official plugins are available:
+## Overview
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+LGAT examines the "Double Movement" in lunar governance: how universal claims ("for all humanity," "open to all countries") simultaneously produce concentrated institutional authority. The platform tracks governance documents from major space-faring nations and coalitions, mapping the mechanisms through which ambiguous language becomes operational power.
 
-## React Compiler
+### The Beetham-Koyanagi Legitimation Triad
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+The analytical framework proceeds in three stages:
 
-## Expanding the ESLint configuration
+1. **Humanity Construction** — Who does the document claim to represent? (scientific commons, future generations, global south, civilization)
+2. **Legitimacy Production** — What language legitimizes action? (functional, normative, or epistemic translation devices)
+3. **Authority Architecture** — Who ultimately defines ambiguous terms and controls interpretive power?
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Views
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+| View | Description |
+|------|-------------|
+| **Authority Map** | Visualizes the Double Movement across 8 countries/entities grouped by coalition, showing universal claims vs. specific authority allocations |
+| **Discretion Registry** | Forensic table of 17 power-deferral points (e.g., "Due Regard," "Safety Zone," "Peaceful Purposes") where ambiguous language concentrates authority |
+| **Infrastructure Nexus** | Maps how physical infrastructure (navigation, communications, ISRU) translates into governance authority through dependency creation |
+| **Coalition Tracker** | Timeline of Artemis (40+ signatories) vs. ILRS (12+ partners) competition with strategy comparison |
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Countries Tracked
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- **Artemis Coalition**: USA, Japan, Luxembourg, UAE, ESA
+- **ILRS Coalition**: China, Russia
+- **Dual-aligned**: India
+
+## Tech Stack
+
+- React 19 + TypeScript
+- Tailwind CSS v4
+- Vite 8
+
+## Getting Started
+
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Scripts
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start development server |
+| `npm run build` | Type-check and build for production |
+| `npm run lint` | Run ESLint |
+| `npm run preview` | Preview production build |
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Author
+
+Risa Koyanagi — [Faultline Research Platform](https://faultline.dev)
