@@ -4,9 +4,10 @@ import { AuthorityMap } from './views/AuthorityMap';
 import { DiscretionRegistry } from './views/DiscretionRegistry';
 import { InfrastructureNexus } from './views/InfrastructureNexus';
 import { CoalitionTracker } from './views/CoalitionTracker';
+import { DataView } from './views/DataView';
 import { DetailOverlay } from './components/DetailOverlay';
 
-type View = 'home' | 'authority-map' | 'discretion-registry' | 'infrastructure-nexus' | 'coalition-tracker';
+type View = 'home' | 'authority-map' | 'discretion-registry' | 'infrastructure-nexus' | 'coalition-tracker' | 'data';
 
 const NAV_ITEMS: { id: View; label: string; shortLabel: string }[] = [
   { id: 'home', label: 'Home', shortLabel: 'Home' },
@@ -14,10 +15,28 @@ const NAV_ITEMS: { id: View; label: string; shortLabel: string }[] = [
   { id: 'discretion-registry', label: 'Discretion Registry', shortLabel: 'Registry' },
   { id: 'infrastructure-nexus', label: 'Infrastructure Nexus', shortLabel: 'Infra' },
   { id: 'coalition-tracker', label: 'Coalition Tracker', shortLabel: 'Timeline' },
+  { id: 'data', label: 'Data', shortLabel: 'Data' },
 ];
 
+const VIEW_IDS = NAV_ITEMS.map((n) => n.id);
+
+// Views can be opened by link (for example /#data), so a verifier can be sent
+// straight to the downloads.
+function viewFromHash(): View {
+  const h = typeof window === 'undefined' ? '' : window.location.hash.replace(/^#\/?/, '');
+  return (VIEW_IDS as string[]).includes(h) ? (h as View) : 'home';
+}
+
 function App() {
-  const [activeView, setActiveView] = useState<View>('home');
+  const [activeView, setActiveViewState] = useState<View>(viewFromHash);
+
+  const setActiveView = (view: View) => {
+    setActiveViewState(view);
+    const hash = view === 'home' ? '' : `#${view}`;
+    if (window.location.hash !== hash) {
+      window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}${hash}`);
+    }
+  };
   const [selectedDocId, setSelectedDocId] = useState<string | null>(null);
 
   const navigateTo = (view: string) => setActiveView(view as View);
@@ -34,6 +53,8 @@ function App() {
         return <InfrastructureNexus onSelectDocument={setSelectedDocId} />;
       case 'coalition-tracker':
         return <CoalitionTracker onSelectDocument={setSelectedDocId} />;
+      case 'data':
+        return <DataView />;
     }
   };
 
@@ -42,9 +63,9 @@ function App() {
       {/* Top Bar */}
       <header className="border-b border-border bg-bg-card/80 backdrop-blur-sm sticky top-0 z-40 lunar-horizon">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-14">
+          <div className="flex flex-wrap md:flex-nowrap items-center justify-between min-h-14 gap-x-4">
             {/* Logo / Title */}
-            <button onClick={() => setActiveView('home')} className="flex items-center gap-3 cursor-pointer">
+            <button onClick={() => setActiveView('home')} className="flex items-center gap-3 cursor-pointer h-14">
               <div className="w-2 h-2 rounded-full bg-accent-cyan animate-pulse" />
               <h1 className="text-sm font-semibold text-text-primary tracking-tight">
                 <span className="data-mono text-accent-cyan">LGAT</span>
@@ -54,19 +75,19 @@ function App() {
             </button>
 
             {/* Navigation */}
-            <nav className="flex items-center gap-1">
+            <nav className="flex items-center gap-1 w-full md:w-auto overflow-x-auto pb-2 md:pb-0 -mx-1 px-1 md:mx-0 md:px-0">
               {NAV_ITEMS.map((item) => (
                 <button
                   key={item.id}
                   onClick={() => setActiveView(item.id)}
-                  className={`px-3 py-1.5 rounded text-xs transition-all ${
+                  className={`px-2.5 sm:px-3 py-1.5 rounded text-xs transition-all whitespace-nowrap shrink-0 ${
                     activeView === item.id
                       ? 'bg-bg-elevated text-text-primary border border-border-bright'
                       : 'text-text-secondary hover:text-text-primary hover:bg-bg-elevated/50'
                   }`}
                 >
-                  <span className="hidden md:inline">{item.label}</span>
-                  <span className="md:hidden">{item.shortLabel}</span>
+                  <span className="hidden lg:inline">{item.label}</span>
+                  <span className="lg:hidden">{item.shortLabel}</span>
                 </button>
               ))}
             </nav>
