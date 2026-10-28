@@ -34,7 +34,7 @@ export interface DatasetMeta {
 }
 
 export const discretionMeta: DatasetMeta = {
-  dataset: 'Lunar Governance Authority Tracker: discretion points',
+  dataset: 'Lunar Governance Tracker: discretion points',
   version: DATASET_VERSION,
   lastUpdated: DATASET_LAST_UPDATED,
   recordCount: DISCRETION_POINTS.length,

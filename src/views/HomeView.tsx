@@ -35,7 +35,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
             Lunar Governance
             <br />
             <span className="bg-gradient-to-r from-accent-cyan via-text-primary to-accent-amber bg-clip-text text-transparent">
-              Authority Tracker
+              Tracker
             </span>
           </h1>
           <p className="text-[0.9rem] text-text-secondary mt-4 max-w-2xl mx-auto leading-relaxed">
@@ -153,7 +153,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
           <p className="text-xs text-text-secondary leading-relaxed">
             Who ultimately defines ambiguous terms like &ldquo;harmful interference,&rdquo; &ldquo;due regard,&rdquo; or
             &ldquo;national interest&rdquo;? The <em>interpretive control</em> over these terms is where real power resides.
-            This is the most important stage — the forensic core of LGAT.
+            This is the most important stage — the forensic core of LGT.
           </p>
         </div>
       </div>
@@ -225,7 +225,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
           <span className="text-xs text-text-muted">Research Platform</span>
         </div>
         <p className="text-xs text-text-secondary leading-relaxed mb-4">
-          LGAT is part of Faultline, a suite of public-facing research dashboards that map governance structures,
+          LGT is part of Faultline, a suite of public-facing research dashboards that map governance structures,
           strategic risk, and authority architecture across critical infrastructure domains.
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

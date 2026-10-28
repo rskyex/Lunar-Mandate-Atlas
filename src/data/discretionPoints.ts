@@ -1,6 +1,6 @@
 // ═══════════════════════════════════════════════════════════════════
 // C. Authority Architecture — Discretion Points
-// Terms where power is deferred; the forensic core of LGAT
+// Terms where power is deferred; the forensic core of LGT
 // ═══════════════════════════════════════════════════════════════════
 
 import { documentTitles, type DocumentId } from './documents';

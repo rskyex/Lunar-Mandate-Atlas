@@ -1,10 +1,10 @@
-# LGAT — Lunar Governance Authority Tracker
+# LGT — Lunar Governance Tracker
 
 A forensic analysis of how universalist language allocates institutional authority in cislunar space. Built on the **Beetham-Koyanagi Legitimation Triad** framework.
 
 ## Overview
 
-LGAT examines the "Double Movement" in lunar governance: how universal claims ("for all humanity," "open to all countries") simultaneously produce concentrated institutional authority. The platform tracks 13 governance documents from 8 major space-faring nations and coalitions, mapping the mechanisms through which ambiguous language becomes operational power.
+LGT examines the "Double Movement" in lunar governance: how universal claims ("for all humanity," "open to all countries") simultaneously produce concentrated institutional authority. The platform tracks 13 governance documents from 8 major space-faring nations and coalitions, mapping the mechanisms through which ambiguous language becomes operational power.
 
 ### The Beetham-Koyanagi Legitimation Triad
 
@@ -83,7 +83,7 @@ npm run dev
 
 ## Faultline Research Platform
 
-LGAT is part of the [Faultline](https://faultline-nqmm.vercel.app/) research ecosystem, alongside:
+LGT is part of the [Faultline](https://faultline-nqmm.vercel.app/) research ecosystem, alongside:
 
 - [Global Nuclear Infrastructure Atlas](https://globalnuclearinfrastructureatlas.vercel.app/)
 - [Orbital Risk Tracker](https://orbitalrisktracker.vercel.app/)

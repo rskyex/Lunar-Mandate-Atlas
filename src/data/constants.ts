@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════════════
-// LGAT — Lunar Governance Authority Tracker
+// LGT — Lunar Governance Tracker
 // Data Engine & Coding Categories
 // Based on Beetham-Koyanagi Legitimation Triad (Cambridge 2026)
 // ═══════════════════════════════════════════════════════════════════

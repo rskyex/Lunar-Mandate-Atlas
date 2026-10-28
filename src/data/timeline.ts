@@ -27,7 +27,7 @@ export const TIMELINE_EVENTS: TimelineEvent[] = [
     year: 1967,
     title: 'Outer Space Treaty enters into force',
     coalition: 'dual',
-    significance: 'Establishes foundational ambiguity: "province of all mankind" without enforcement mechanism. The discretion points that LGAT tracks originate here.',
+    significance: 'Establishes foundational ambiguity: "province of all mankind" without enforcement mechanism. The discretion points that LGT tracks originate here.',
     confidence: 'confirmed',
   },
   {

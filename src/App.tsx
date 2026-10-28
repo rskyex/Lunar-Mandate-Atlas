@@ -68,9 +68,9 @@ function App() {
             <button onClick={() => setActiveView('home')} className="flex items-center gap-3 cursor-pointer h-14">
               <div className="w-2 h-2 rounded-full bg-accent-cyan animate-pulse" />
               <h1 className="text-sm font-semibold text-text-primary tracking-tight">
-                <span className="data-mono text-accent-cyan">LGAT</span>
+                <span className="data-mono text-accent-cyan">LGT</span>
                 <span className="text-text-muted mx-2">|</span>
-                <span className="hidden sm:inline text-text-secondary font-normal">Lunar Governance Authority Tracker</span>
+                <span className="hidden sm:inline text-text-secondary font-normal">Lunar Governance Tracker</span>
               </h1>
             </button>
 
