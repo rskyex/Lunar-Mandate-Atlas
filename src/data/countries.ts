@@ -4,6 +4,7 @@
 // ═══════════════════════════════════════════════════════════════════
 
 import type { TranslationDeviceType, HumanityReferent, InfrastructureType } from './constants';
+import { getDocument, type DocumentId } from './documents';
 
 export type Coalition = 'artemis' | 'ilrs' | 'dual' | 'independent';
 
@@ -26,10 +27,11 @@ export interface Stage3_AuthorityArchitecture {
   powerEffect: string;           // What authority does this produce?
 }
 
-export interface GovernanceDocument {
+interface GovernanceDocumentEntry {
+  /** Id of this country-profile entry (used to open its detail view). */
   id: string;
-  title: string;
-  year: number;
+  /** The document this entry analyses, from the documents registry (src/data/documents.ts). */
+  documentId: DocumentId;
   coalition: Coalition;
   characteristicFormulation: string;
   translationType: TranslationDeviceType;
@@ -40,6 +42,16 @@ export interface GovernanceDocument {
   stage1: Stage1_HumanityConstruction;
   stage2: Stage2_LegitimacyProduction;
   stage3: Stage3_AuthorityArchitecture;
+}
+
+export interface GovernanceDocument extends GovernanceDocumentEntry {
+  /** Canonical title and year from the documents registry. */
+  title: string;
+  year: number;
+}
+
+interface CountryEntry extends Omit<Country, 'documents'> {
+  documents: GovernanceDocumentEntry[];
 }
 
 export interface Country {
@@ -55,7 +67,7 @@ export interface Country {
   specificAuthority: string;
 }
 
-export const COUNTRIES: Country[] = [
+const COUNTRY_ENTRIES: CountryEntry[] = [
   {
     id: 'usa',
     name: 'United States',
@@ -69,10 +81,9 @@ export const COUNTRIES: Country[] = [
     documents: [
       {
         id: 'doc-usa-01',
-        title: 'Artemis Accords',
-        year: 2020,
+        documentId: 'AA-2020',
         coalition: 'artemis',
-        characteristicFormulation: '"The Signatories... affirm that cooperative activities should be conducted in accordance with the principles set forth in the Outer Space Treaty."',
+        characteristicFormulation: '"The Accords represent a political commitment to the principles described herein, many of which provide for operational implementation of important obligations contained in the Outer Space Treaty and other instruments." — Section 1',
         translationType: 'functional',
         humanityReferent: 'scientific_commons',
         infrastructureLink: ['comms', 'nav', 'logistics'],
@@ -95,8 +106,7 @@ export const COUNTRIES: Country[] = [
       },
       {
         id: 'doc-usa-02',
-        title: 'OSTP Coordinated Lunar Time (LTC) Framework',
-        year: 2024,
+        documentId: 'US-OSTP-LTC-2024',
         coalition: 'artemis',
         characteristicFormulation: '"NASA shall establish a unified lunar time standard... to ensure interoperability, safety, and precision of operations."',
         translationType: 'functional',
@@ -134,8 +144,7 @@ export const COUNTRIES: Country[] = [
     documents: [
       {
         id: 'doc-cn-01',
-        title: 'ILRS Guide for Partnership',
-        year: 2023,
+        documentId: 'ILRS-GUIDE-2023',
         coalition: 'ilrs',
         characteristicFormulation: '"ILRS will be open to all interested countries and international partners, dedicated to the peaceful use and appropriate utilization of lunar resources for the benefit of all humankind."',
         translationType: 'normative',
@@ -160,8 +169,7 @@ export const COUNTRIES: Country[] = [
       },
       {
         id: 'doc-cn-02',
-        title: 'CNSA Lunar Exploration Phase 4',
-        year: 2024,
+        documentId: 'CN-LEP4-2024',
         coalition: 'ilrs',
         characteristicFormulation: '"Phase 4 will establish the basic model for the ILRS, conducting scientific exploration and technological verification."',
         translationType: 'epistemic',
@@ -199,8 +207,7 @@ export const COUNTRIES: Country[] = [
     documents: [
       {
         id: 'doc-ru-01',
-        title: 'Roscosmos-CNSA MoU on ILRS',
-        year: 2021,
+        documentId: 'ILRS-MOU-2021',
         coalition: 'ilrs',
         characteristicFormulation: '"The Parties shall cooperate on the basis of equality and mutual benefit in the creation of the ILRS."',
         translationType: 'normative',
@@ -238,8 +245,7 @@ export const COUNTRIES: Country[] = [
     documents: [
       {
         id: 'doc-jp-01',
-        title: 'Basic Space Law',
-        year: 2008,
+        documentId: 'JP-BSL-2008',
         coalition: 'artemis',
         characteristicFormulation: '"Space development shall be carried out... in accordance with the pacifism of the Constitution... for the purpose of contributing to international peace and security."',
         translationType: 'epistemic',
@@ -264,8 +270,7 @@ export const COUNTRIES: Country[] = [
       },
       {
         id: 'doc-jp-02',
-        title: 'JAXA-NASA Artemis MoU (Gateway / HLS)',
-        year: 2022,
+        documentId: 'JP-NASA-2022',
         coalition: 'artemis',
         characteristicFormulation: '"Japan will provide critical capabilities for the Gateway habitation module and lunar surface mobility, ensuring interoperability with Artemis architecture."',
         translationType: 'functional',
@@ -303,8 +308,7 @@ export const COUNTRIES: Country[] = [
     documents: [
       {
         id: 'doc-in-01',
-        title: 'Space Activities Bill',
-        year: 2023,
+        documentId: 'IN-SAB-2023',
         coalition: 'dual',
         characteristicFormulation: '"No person shall undertake any space activity unless authorized by the Central Government through the designated body."',
         translationType: 'normative',
@@ -342,8 +346,7 @@ export const COUNTRIES: Country[] = [
     documents: [
       {
         id: 'doc-lu-01',
-        title: 'Space Resources Law',
-        year: 2017,
+        documentId: 'LUX-SRL-2017',
         coalition: 'artemis',
         characteristicFormulation: '"Space resources are capable of being owned." — Distinct from sovereignty over celestial bodies.',
         translationType: 'epistemic',
@@ -381,8 +384,7 @@ export const COUNTRIES: Country[] = [
     documents: [
       {
         id: 'doc-ae-01',
-        title: 'Federal Law No. 12 on Space Sector Regulation',
-        year: 2019,
+        documentId: 'UAE-LAW-2019',
         coalition: 'artemis',
         characteristicFormulation: '"The Agency may... restrict access to data or information if disclosure would affect the national interest or security of the State."',
         translationType: 'functional',
@@ -420,8 +422,7 @@ export const COUNTRIES: Country[] = [
     documents: [
       {
         id: 'doc-esa-01',
-        title: 'ESA Statement on Artemis Accords Principles',
-        year: 2023,
+        documentId: 'ESA-STMT-2023',
         coalition: 'artemis',
         characteristicFormulation: '"ESA welcomes the principles... and will continue to work within the UN framework for the development of international norms."',
         translationType: 'normative',
@@ -447,3 +448,11 @@ export const COUNTRIES: Country[] = [
     ],
   },
 ];
+
+export const COUNTRIES: Country[] = COUNTRY_ENTRIES.map((c) => ({
+  ...c,
+  documents: c.documents.map((d) => {
+    const doc = getDocument(d.documentId);
+    return { ...d, title: doc.title, year: doc.year };
+  }),
+}));

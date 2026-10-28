@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { DISCRETION_POINTS, DISCRETION_TYPE_LABELS } from '../data';
+import { DISCRETION_POINTS, DISCRETION_TYPE_LABELS, getDocument } from '../data';
 import type { DiscretionPoint, DiscretionType } from '../data';
 
 interface DiscretionRegistryProps {
@@ -56,7 +56,21 @@ function ExpandedRow({ point }: { point: DiscretionPoint }) {
       <div className="flex items-center gap-4 pt-2 border-t border-border">
         <div>
           <span className="data-mono text-[10px] text-text-muted">DOCUMENT: </span>
-          <span className="data-mono text-xs text-text-primary">{point.documentId}</span>
+          {point.documentIds.map((id, i) => {
+            const doc = getDocument(id);
+            return (
+              <span key={id} className="data-mono text-xs text-text-primary" title={doc.title}>
+                {i > 0 && ' + '}
+                {doc.url ? (
+                  <a href={doc.url} target="_blank" rel="noopener noreferrer" className="underline decoration-dotted hover:text-accent-cyan">
+                    {id}
+                  </a>
+                ) : (
+                  id
+                )}
+              </span>
+            );
+          })}
         </div>
         <div>
           <span className="data-mono text-[10px] text-text-muted">SECTION: </span>

@@ -1,19 +1,20 @@
 // Versioned, client-side exports of the discretion point registry for verifiers.
 // Generated from the same data module the site uses (src/data/discretionPoints.ts).
-import { DISCRETION_POINTS, DISCRETION_TYPE_LABELS } from '../data';
+import { DISCRETION_POINTS, DISCRETION_TYPE_LABELS, getDocument } from '../data';
 import type { DiscretionPoint } from '../data';
 
 // Bump these whenever discretion point records change.
 // DATASET_LAST_UPDATED is the date of the last change to src/data.
-export const DATASET_VERSION = '1.0.0';
-export const DATASET_LAST_UPDATED = '2026-04-12';
+export const DATASET_VERSION = '1.1.0';
+export const DATASET_LAST_UPDATED = '2026-10-28';
 export const SITE_URL = 'https://lunar-mandate-atlas.vercel.app';
 
 export const DISCRETION_COLUMNS: { key: string; description: string }[] = [
   { key: 'id', description: 'Stable record identifier.' },
   { key: 'term', description: 'The term where discretion is deferred.' },
-  { key: 'document', description: 'Governing document the term appears in.' },
-  { key: 'documentId', description: 'Short document identifier used across the site.' },
+  { key: 'document', description: 'Canonical title(s) of the governing document(s), from the documents registry.' },
+  { key: 'documentIds', description: 'Document registry id(s), separated by " | " when a point spans several documents.' },
+  { key: 'documentUrls', description: 'Source URL(s) from the documents registry, where confirmed, separated by " | ".' },
   { key: 'section', description: 'Section or article of the document.' },
   { key: 'type', description: 'Discretion type code.' },
   { key: 'typeLabel', description: 'Readable discretion type.' },
@@ -46,7 +47,8 @@ function row(p: DiscretionPoint): Record<string, string> {
     id: p.id,
     term: p.term,
     document: p.document,
-    documentId: p.documentId,
+    documentIds: p.documentIds.join(' | '),
+    documentUrls: p.documentIds.map((id) => getDocument(id).url ?? '').filter(Boolean).join(' | '),
     section: p.section,
     type: p.type,
     typeLabel: DISCRETION_TYPE_LABELS[p.type],
@@ -71,7 +73,8 @@ export function discretionCsv(): string {
 }
 
 export function discretionJson(): string {
-  return JSON.stringify({ meta: discretionMeta, records: DISCRETION_POINTS }, null, 2);
+  const documents = [...new Set(DISCRETION_POINTS.flatMap((p) => p.documentIds))].map(getDocument);
+  return JSON.stringify({ meta: discretionMeta, documents, records: DISCRETION_POINTS }, null, 2);
 }
 
 export function downloadText(filename: string, content: string, mime: string): void {

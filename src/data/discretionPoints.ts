@@ -3,6 +3,8 @@
 // Terms where power is deferred; the forensic core of LGAT
 // ═══════════════════════════════════════════════════════════════════
 
+import { documentTitles, type DocumentId } from './documents';
+
 export type DiscretionType =
   | 'open_ended_qualifier'
   | 'procedural_deferral'
@@ -10,17 +12,22 @@ export type DiscretionType =
   | 'interpretive_monopoly'
   | 'carve_out';
 
-export interface DiscretionPoint {
+interface DiscretionPointEntry {
   id: string;
   term: string;
-  document: string;
-  documentId: string;
+  /** Ids in the documents registry (src/data/documents.ts); several when the point spans documents. */
+  documentIds: DocumentId[];
   section: string;
   type: DiscretionType;
   holder: string;
   implication: string;
   coalition: 'artemis' | 'ilrs' | 'national' | 'ost';
   characteristicFormulation: string;
+}
+
+export interface DiscretionPoint extends DiscretionPointEntry {
+  /** Canonical title(s) from the documents registry. */
+  document: string;
 }
 
 export const DISCRETION_TYPE_LABELS: Record<DiscretionType, string> = {
@@ -31,12 +38,11 @@ export const DISCRETION_TYPE_LABELS: Record<DiscretionType, string> = {
   carve_out: 'Carve-out',
 };
 
-export const DISCRETION_POINTS: DiscretionPoint[] = [
+const ENTRIES: DiscretionPointEntry[] = [
   {
     id: 'dp-001',
     term: 'Due Regard',
-    document: 'Outer Space Treaty',
-    documentId: 'OST-1967',
+    documentIds: ['OST-1967'],
     section: 'Article IX',
     type: 'open_ended_qualifier',
     holder: 'Each State Party (self-judging)',
@@ -47,32 +53,29 @@ export const DISCRETION_POINTS: DiscretionPoint[] = [
   {
     id: 'dp-002',
     term: 'Harmful Interference',
-    document: 'Artemis Accords',
-    documentId: 'AA-2020',
-    section: 'Section 11',
+    documentIds: ['AA-2020'],
+    section: 'Section 11.4',
     type: 'open_ended_qualifier',
     holder: 'Signatory / Drafting party (USA)',
     implication: 'Sets the boundary for deconfliction without a central judge. The drafting party retains interpretive control over what constitutes "harmful" activity near its operations.',
     coalition: 'artemis',
-    characteristicFormulation: '"Signatories intend to use their experience... to contribute to multilateral efforts to develop international practices and rules applicable to the preservation of outer space heritage."',
+    characteristicFormulation: '"The Signatories commit to seek to refrain from any intentional actions that may create harmful interference with each other’s use of outer space in their activities under these Accords."',
   },
   {
     id: 'dp-003',
     term: 'Safety Zone',
-    document: 'Artemis Accords',
-    documentId: 'AA-2020',
+    documentIds: ['AA-2020'],
     section: 'Section 11.7',
     type: 'procedural_deferral',
     holder: 'Operating State (unilateral notification)',
     implication: 'Functional exclusion zones without treaty basis. The "notifying" state defines the perimeter, converting operational presence into territorial-adjacent authority.',
     coalition: 'artemis',
-    characteristicFormulation: '"The Signatories intend to provide notification of their activities and coordinate with any relevant actor to avoid harmful interference."',
+    characteristicFormulation: '"In order to implement their obligations under the Outer Space Treaty, the Signatories intend to provide notification of their activities and commit to coordinating with any relevant actor to avoid harmful interference."',
   },
   {
     id: 'dp-004',
     term: 'Co-consultation',
-    document: 'ILRS Memorandum of Understanding',
-    documentId: 'ILRS-MOU-2021',
+    documentIds: ['ILRS-MOU-2021'],
     section: 'Article 4',
     type: 'procedural_deferral',
     holder: 'CNSA / Roscosmos (founding partners)',
@@ -83,8 +86,7 @@ export const DISCRETION_POINTS: DiscretionPoint[] = [
   {
     id: 'dp-005',
     term: 'Appropriate Utilization',
-    document: 'ILRS Guide for Partnership',
-    documentId: 'ILRS-GUIDE-2023',
+    documentIds: ['ILRS-GUIDE-2023'],
     section: 'Section 3.2',
     type: 'definitional_gap',
     holder: 'CNSA (architectural lead)',
@@ -95,8 +97,7 @@ export const DISCRETION_POINTS: DiscretionPoint[] = [
   {
     id: 'dp-006',
     term: 'National Interest',
-    document: 'UAE Federal Law No. 12 (Space Sector)',
-    documentId: 'UAE-LAW-2019',
+    documentIds: ['UAE-LAW-2019'],
     section: 'Article 7',
     type: 'carve_out',
     holder: 'UAE Space Agency',
@@ -107,8 +108,7 @@ export const DISCRETION_POINTS: DiscretionPoint[] = [
   {
     id: 'dp-007',
     term: 'Peaceful Purposes',
-    document: 'Japan Basic Space Law',
-    documentId: 'JP-BSL-2008',
+    documentIds: ['JP-BSL-2008'],
     section: 'Article 2 (reinterpreted 2008)',
     type: 'interpretive_monopoly',
     holder: 'Cabinet Office (post-2008 reinterpretation)',
@@ -119,8 +119,7 @@ export const DISCRETION_POINTS: DiscretionPoint[] = [
   {
     id: 'dp-008',
     term: 'Appropriation (negative definition)',
-    document: 'Luxembourg Space Resources Law',
-    documentId: 'LUX-SRL-2017',
+    documentIds: ['LUX-SRL-2017'],
     section: 'Article 1',
     type: 'definitional_gap',
     holder: 'Luxembourg Government (unilateral legislative act)',
@@ -131,8 +130,7 @@ export const DISCRETION_POINTS: DiscretionPoint[] = [
   {
     id: 'dp-009',
     term: 'Centralized Authorization',
-    document: 'India Space Activities Bill',
-    documentId: 'IN-SAB-2023',
+    documentIds: ['IN-SAB-2023'],
     section: 'Chapter III',
     type: 'interpretive_monopoly',
     holder: 'IN-SPACe (Indian National Space Promotion and Authorization Centre)',
@@ -143,8 +141,7 @@ export const DISCRETION_POINTS: DiscretionPoint[] = [
   {
     id: 'dp-010',
     term: 'Lunar Time Standard',
-    document: 'OSTP Coordinated Lunar Time (LTC) Framework',
-    documentId: 'US-OSTP-LTC-2024',
+    documentIds: ['US-OSTP-LTC-2024'],
     section: 'Presidential Directive',
     type: 'interpretive_monopoly',
     holder: 'NASA / OSTP (USA)',
@@ -155,8 +152,7 @@ export const DISCRETION_POINTS: DiscretionPoint[] = [
   {
     id: 'dp-011',
     term: 'Multilateral Alignment',
-    document: 'ESA Statement on Artemis Accords Principles',
-    documentId: 'ESA-STMT-2023',
+    documentIds: ['ESA-STMT-2023'],
     section: 'Director General Statement',
     type: 'procedural_deferral',
     holder: 'ESA Member States (collective)',
@@ -167,8 +163,7 @@ export const DISCRETION_POINTS: DiscretionPoint[] = [
   {
     id: 'dp-012',
     term: 'Phase 4 Exploration',
-    document: 'CNSA Lunar Exploration Programme Phase 4',
-    documentId: 'CN-LEP4-2024',
+    documentIds: ['CN-LEP4-2024'],
     section: 'Programme Architecture',
     type: 'procedural_deferral',
     holder: 'CNSA (state agency)',
@@ -179,20 +174,18 @@ export const DISCRETION_POINTS: DiscretionPoint[] = [
   {
     id: 'dp-013',
     term: 'As Appropriate',
-    document: 'Artemis Accords',
-    documentId: 'AA-2020',
-    section: 'Section 5 (Registration)',
+    documentIds: ['AA-2020'],
+    section: 'Section 1 (Purpose and Scope), second paragraph',
     type: 'open_ended_qualifier',
     holder: 'Each Signatory (self-judging)',
     implication: '"As appropriate" delegates implementation entirely to the signatory. No external standard defines what is or is not appropriate, allowing each actor to calibrate compliance to their own interests.',
     coalition: 'artemis',
-    characteristicFormulation: '"The Signatories intend to... provide registration information as appropriate and consistent with their respective national registration practices."',
+    characteristicFormulation: '"The Signatories intend to implement the principles set out in these Accords through their own activities by taking, as appropriate, measures such as mission planning and contractual mechanisms with entities acting on their behalf."',
   },
   {
     id: 'dp-014',
     term: 'Non-military / Non-aggressive',
-    document: 'Japan Basic Space Law + JAXA-NASA Artemis MoU',
-    documentId: 'JP-BSL-2008 / JP-NASA-2022',
+    documentIds: ['JP-BSL-2008', 'JP-NASA-2022'],
     section: 'Article 2 / Preamble',
     type: 'interpretive_monopoly',
     holder: 'Cabinet Office / Japanese Government',
@@ -203,8 +196,7 @@ export const DISCRETION_POINTS: DiscretionPoint[] = [
   {
     id: 'dp-015',
     term: 'Authorised Entity',
-    document: 'India Space Activities Bill',
-    documentId: 'IN-SAB-2023',
+    documentIds: ['IN-SAB-2023'],
     section: 'Chapter II, Definitions',
     type: 'definitional_gap',
     holder: 'Central Government / IN-SPACe',
@@ -215,8 +207,7 @@ export const DISCRETION_POINTS: DiscretionPoint[] = [
   {
     id: 'dp-016',
     term: 'Interoperability Standards',
-    document: 'ESA Artemis Accords Statement / LunaNet Architecture',
-    documentId: 'ESA-STMT-2023 / NASA-LUNANET',
+    documentIds: ['ESA-STMT-2023', 'NASA-LUNANET'],
     section: 'Technical Specifications',
     type: 'procedural_deferral',
     holder: 'NASA (de facto) / ESA (de jure multilateral claim)',
@@ -227,8 +218,7 @@ export const DISCRETION_POINTS: DiscretionPoint[] = [
   {
     id: 'dp-017',
     term: 'Ownership vs. Appropriation',
-    document: 'Luxembourg Space Resources Law / US CSLCA',
-    documentId: 'LUX-SRL-2017 / US-CSLCA-2015',
+    documentIds: ['LUX-SRL-2017', 'US-CSLCA-2015'],
     section: 'Article 1 / Title IV',
     type: 'definitional_gap',
     holder: 'National legislatures (Luxembourg, USA)',
@@ -237,3 +227,8 @@ export const DISCRETION_POINTS: DiscretionPoint[] = [
     characteristicFormulation: '"A US citizen engaged in commercial recovery of an asteroid or space resource shall be entitled to... possess, own, transport, use, and sell the resource."',
   },
 ];
+
+export const DISCRETION_POINTS: DiscretionPoint[] = ENTRIES.map((p) => ({
+  ...p,
+  document: documentTitles(p.documentIds),
+}));
