@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { COUNTRIES, HUMANITY_REFERENTS } from '../data';
 import { TRANSLATION_DEVICE_TYPES, INFRASTRUCTURE_TYPES } from '../data';
 import type { GovernanceDocument, Country } from '../data';
@@ -16,6 +17,23 @@ function findDocument(docId: string): { document: GovernanceDocument; country: C
 }
 
 export function DetailOverlay({ documentId, onClose }: DetailOverlayProps) {
+  const closeRef = useRef<HTMLButtonElement>(null);
+
+  // Escape closes the overlay; focus moves to the close button on open and back afterwards.
+  useEffect(() => {
+    if (!documentId) return;
+    const previous = document.activeElement as HTMLElement | null;
+    closeRef.current?.focus();
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => {
+      window.removeEventListener('keydown', onKey);
+      previous?.focus?.();
+    };
+  }, [documentId, onClose]);
+
   if (!documentId) return null;
 
   const result = findDocument(documentId);
@@ -28,8 +46,11 @@ export function DetailOverlay({ documentId, onClose }: DetailOverlayProps) {
   const tagClass = isArtemis ? 'tag-cyan' : 'tag-amber';
 
   return (
-    <div className="fixed inset-0 z-50 overlay-backdrop flex items-center justify-center p-6" onClick={onClose}>
+    <div className="fixed inset-0 z-50 overlay-backdrop flex items-center justify-center p-3 sm:p-6" onClick={onClose}>
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="detail-overlay-title"
         className="bg-bg-card border border-border-bright rounded-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
@@ -41,11 +62,13 @@ export function DetailOverlay({ documentId, onClose }: DetailOverlayProps) {
                 <span className={`tag ${tagClass}`}>{doc.coalition.toUpperCase()}</span>
                 <span className="data-mono text-[10px] text-text-muted">{doc.year}</span>
               </div>
-              <h2 className="text-lg font-semibold text-text-primary">{doc.title}</h2>
+              <h2 id="detail-overlay-title" className="text-lg font-semibold text-text-primary">{doc.title}</h2>
               <p className="text-sm text-text-secondary mt-1">{country.name} ({country.code})</p>
             </div>
             <button
+              ref={closeRef}
               onClick={onClose}
+              aria-label="Close"
               className="text-text-muted hover:text-text-primary transition-colors text-xl leading-none p-1"
             >
               ×
@@ -60,9 +83,16 @@ export function DetailOverlay({ documentId, onClose }: DetailOverlayProps) {
             <div className={`data-mono text-[10px] ${isArtemis ? 'text-accent-cyan' : 'text-accent-amber'} uppercase tracking-wider mb-2`}>
               Characteristic Formulation
             </div>
-            <blockquote className="text-sm text-text-primary italic leading-relaxed">
-              {doc.characteristicFormulation}
-            </blockquote>
+            {doc.formulationKind === 'verbatim' ? (
+              <blockquote className="text-sm text-text-primary italic leading-relaxed">
+                &ldquo;{doc.characteristicFormulation}&rdquo;
+              </blockquote>
+            ) : (
+              <p className="text-sm text-text-primary leading-relaxed">
+                <span className="data-mono text-[10px] text-accent-amber uppercase mr-1">Paraphrase, unverified:</span>
+                {doc.characteristicFormulation}
+              </p>
+            )}
           </div>
 
           {/* ═══ STAGE 1: Humanity Construction ═══ */}
@@ -76,7 +106,7 @@ export function DetailOverlay({ documentId, onClose }: DetailOverlayProps) {
                 <div className="data-mono text-[10px] text-text-muted uppercase mb-1">Referent — Who does this document represent?</div>
                 <p className="text-sm text-text-primary">{doc.stage1.referent}</p>
               </div>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <div className="data-mono text-[10px] text-text-muted uppercase mb-1">Referent Category</div>
                   <span className="tag tag-cyan">{referentInfo.label}</span>
@@ -160,7 +190,7 @@ export function DetailOverlay({ documentId, onClose }: DetailOverlayProps) {
             <div className="data-mono text-[10px] text-text-muted uppercase tracking-wider mb-3">
               The Double Movement — {country.name}
             </div>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="bg-bg-primary rounded p-3 border border-accent-cyan/20">
                 <div className="data-mono text-[10px] text-accent-cyan mb-1">UNIVERSAL CLAIM</div>
                 <p className="text-xs text-text-secondary">{country.universalistClaim}</p>

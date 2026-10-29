@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { HomeView } from './views/HomeView';
 import { AuthorityMap } from './views/AuthorityMap';
 import { DiscretionRegistry } from './views/DiscretionRegistry';
@@ -38,6 +38,7 @@ function App() {
     }
   };
   const [selectedDocId, setSelectedDocId] = useState<string | null>(null);
+  const closeOverlay = useCallback(() => setSelectedDocId(null), []);
 
   const navigateTo = (view: string) => setActiveView(view as View);
 
@@ -134,7 +135,7 @@ function App() {
       </footer>
 
       {/* Detail Overlay */}
-      <DetailOverlay documentId={selectedDocId} onClose={() => setSelectedDocId(null)} />
+      <DetailOverlay documentId={selectedDocId} onClose={closeOverlay} />
     </div>
   );
 }

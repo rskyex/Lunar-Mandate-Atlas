@@ -33,7 +33,9 @@ interface GovernanceDocumentEntry {
   /** The document this entry analyses, from the documents registry (src/data/documents.ts). */
   documentId: DocumentId;
   coalition: Coalition;
+  /** Verbatim text without surrounding quotation marks, or a paraphrase (see formulationKind). */
   characteristicFormulation: string;
+  formulationKind: 'verbatim' | 'paraphrase';
   translationType: TranslationDeviceType;
   humanityReferent: HumanityReferent;
   infrastructureLink: InfrastructureType[];
@@ -62,7 +64,7 @@ export interface Country {
   primaryAudience: string;
   legitimationStrategy: string;
   documents: GovernanceDocument[];
-  rulesDensity: number; // 1-10 scale: density of binding provisions
+  rulesDensity: number; // 1-10 scale: density of binding provisions (author judgement; no rubric yet)
   universalistClaim: string;
   specificAuthority: string;
 }
@@ -83,7 +85,8 @@ const COUNTRY_ENTRIES: CountryEntry[] = [
         id: 'doc-usa-01',
         documentId: 'AA-2020',
         coalition: 'artemis',
-        characteristicFormulation: '"The Accords represent a political commitment to the principles described herein, many of which provide for operational implementation of important obligations contained in the Outer Space Treaty and other instruments." — Section 1',
+        characteristicFormulation: 'The Accords represent a political commitment to the principles described herein, many of which provide for operational implementation of important obligations contained in the Outer Space Treaty and other instruments.',
+        formulationKind: 'verbatim',
         translationType: 'functional',
         humanityReferent: 'scientific_commons',
         infrastructureLink: ['comms', 'nav', 'logistics'],
@@ -108,7 +111,8 @@ const COUNTRY_ENTRIES: CountryEntry[] = [
         id: 'doc-usa-02',
         documentId: 'US-OSTP-LTC-2024',
         coalition: 'artemis',
-        characteristicFormulation: '"NASA shall establish a unified lunar time standard... to ensure interoperability, safety, and precision of operations."',
+        characteristicFormulation: 'NASA, with support from partnering departments and agencies, will establish the approach to LTC as the international standard through existing standards bodies, and among the Artemis Accords signatories.',
+        formulationKind: 'verbatim',
         translationType: 'functional',
         humanityReferent: 'scientific_commons',
         infrastructureLink: ['nav', 'comms'],
@@ -125,7 +129,7 @@ const COUNTRY_ENTRIES: CountryEntry[] = [
         },
         stage3: {
           interpretiveControl: 'NASA / OSTP defines the time standard; all actors must synchronize to it',
-          discretionMechanism: 'Presidential directive creates executive authority over a technical standard that has no multilateral governance process',
+          discretionMechanism: 'An OSTP policy memorandum to federal agencies (2 April 2024) tasks NASA with defining the standard and establishing it internationally; no multilateral governance process sets it',
           powerEffect: 'Whoever defines time defines the coordination infrastructure. Functional authority without explicit political claim.',
         },
       },
@@ -146,7 +150,8 @@ const COUNTRY_ENTRIES: CountryEntry[] = [
         id: 'doc-cn-01',
         documentId: 'ILRS-GUIDE-2023',
         coalition: 'ilrs',
-        characteristicFormulation: '"ILRS will be open to all interested countries and international partners, dedicated to the peaceful use and appropriate utilization of lunar resources for the benefit of all humankind."',
+        characteristicFormulation: 'CNSA and ROSCOMOS jointly invite all interested international partners to cooperate and contribute more for the peaceful exploration and use of Moon in the interests of all humankind, adhering to the principles of equality, openness and integrity.',
+        formulationKind: 'verbatim',
         translationType: 'normative',
         humanityReferent: 'global_south',
         infrastructureLink: ['habitats', 'ISRU', 'power'],
@@ -162,7 +167,7 @@ const COUNTRY_ENTRIES: CountryEntry[] = [
           legitimationNarrative: 'Positions ILRS as the democratic alternative to Artemis. "Open to all" vocabulary creates moral contrast with US bilateral architecture. Inclusivity as legitimation device.',
         },
         stage3: {
-          interpretiveControl: 'CNSA defines "appropriate utilization," station architecture, phase scope, and partner onboarding criteria',
+          interpretiveControl: 'CNSA and Roscosmos, as joint authors of the Guide, define station architecture, phase scope, and partner onboarding criteria',
           discretionMechanism: 'Partners join phases already designed by CNSA. "Consultation" without co-design rights. Architecture determines what partners can and cannot do.',
           powerEffect: 'Normative openness coexists with architectural control. The invitation is universal; the blueprint is not.',
         },
@@ -171,7 +176,8 @@ const COUNTRY_ENTRIES: CountryEntry[] = [
         id: 'doc-cn-02',
         documentId: 'CN-LEP4-2024',
         coalition: 'ilrs',
-        characteristicFormulation: '"Phase 4 will establish the basic model for the ILRS, conducting scientific exploration and technological verification."',
+        characteristicFormulation: 'The goal of the fourth phase for the Chinese lunar exploration program is to build a basic model of an international lunar scientific research station.',
+        formulationKind: 'verbatim',
         translationType: 'epistemic',
         humanityReferent: 'scientific_commons',
         infrastructureLink: ['ISRU', 'power', 'habitats', 'nav'],
@@ -209,7 +215,8 @@ const COUNTRY_ENTRIES: CountryEntry[] = [
         id: 'doc-ru-01',
         documentId: 'ILRS-MOU-2021',
         coalition: 'ilrs',
-        characteristicFormulation: '"The Parties shall cooperate on the basis of equality and mutual benefit in the creation of the ILRS."',
+        characteristicFormulation: 'CNSA and ROSCOSMOS will adhere to the principle of “co consultation, joint construction, and shared benefits”, facilitate extensive cooperation in the ILRS, open to all interested countries and international partners',
+        formulationKind: 'verbatim',
         translationType: 'normative',
         humanityReferent: 'civilisation',
         infrastructureLink: ['habitats', 'logistics', 'power'],
@@ -238,20 +245,21 @@ const COUNTRY_ENTRIES: CountryEntry[] = [
     code: 'JP',
     coalition: 'artemis',
     primaryAudience: 'Domestic Public / Alliance Partners',
-    legitimationStrategy: 'Reinterpretation of constitutional constraints. "Peaceful purposes" redefined from "non-military" to "non-aggressive," enabling dual-use space capability.',
+    legitimationStrategy: 'Statutory reframing of a constitutional constraint. The Basic Space Act (passed by the Diet in 2008) keeps the pacifist principle but adds national security as a purpose, opening the reading of "peaceful" from "non-military" towards "non-aggressive."',
     rulesDensity: 7,
     universalistClaim: '"Peaceful purposes and international cooperation" — framed through constitutional commitment',
-    specificAuthority: 'Cabinet Office holds interpretive monopoly over what "peaceful" means in practice, enabling progressive militarization.',
+    specificAuthority: 'The Act does not define "peaceful"; the Government, in applying Articles 2 and 14, decides what it permits in practice.',
     documents: [
       {
         id: 'doc-jp-01',
         documentId: 'JP-BSL-2008',
         coalition: 'artemis',
-        characteristicFormulation: '"Space development shall be carried out... in accordance with the pacifism of the Constitution... for the purpose of contributing to international peace and security."',
+        characteristicFormulation: 'Outer space development and use is to be conducted in accordance with the provisions of treaties and other international agreements concerning outer space use and development, including the Treaty on Principles Governing the Activities of States in the Exploration and Use of Outer Space, including the Moon and Other Celestial Bodies, in accordance with the pacifist principles of the Constitution of Japan.',
+        formulationKind: 'verbatim',
         translationType: 'epistemic',
         humanityReferent: 'civilisation',
         infrastructureLink: ['SSA', 'nav', 'comms'],
-        authorityMechanism: 'Executive reinterpretation without amendment. The 2008 law shifted "peaceful" from non-military to non-aggressive, concentrating definitional power in the Cabinet.',
+        authorityMechanism: 'Legislative reframing. The 2008 Act, enacted by the Diet, pairs the pacifist principle (Art. 2) with national security (Arts. 3, 14) and leaves the boundary undefined, so the Government draws it in application.',
         stage1: {
           referent: 'Japanese public and constitutional order — "peace" as a domestically constructed referent',
           referentCategory: 'civilisation',
@@ -260,11 +268,11 @@ const COUNTRY_ENTRIES: CountryEntry[] = [
         stage2: {
           justificatoryVocabulary: ['Peaceful Purposes', 'International Peace and Security', 'Pacifism'],
           translationDevice: 'epistemic',
-          legitimationNarrative: 'Epistemic reinterpretation: "non-military" redefined as "non-aggressive" through expert legal opinion. Constitutional constraint becomes enabling clause through interpretive shift.',
+          legitimationNarrative: 'The constitutional constraint is restated in statute alongside a national-security purpose, so the same "pacifist principles" language now sits beside an enabling clause.',
         },
         stage3: {
-          interpretiveControl: 'Cabinet Office holds exclusive authority to define what "peaceful" means in the space context',
-          discretionMechanism: 'Executive reinterpretation without legislative amendment — a semantic shift that bypasses parliamentary process',
+          interpretiveControl: 'The Government, applying an Act passed by the Diet that leaves "peaceful" undefined',
+          discretionMechanism: 'Statutory pairing of the pacifist principle with national security, without a definition of the boundary between them',
           powerEffect: 'Reservation of "peaceful use" interpretation to domestic law enables progressive dual-use capability under constitutional cover.',
         },
       },
@@ -272,7 +280,8 @@ const COUNTRY_ENTRIES: CountryEntry[] = [
         id: 'doc-jp-02',
         documentId: 'JP-NASA-2022',
         coalition: 'artemis',
-        characteristicFormulation: '"Japan will provide critical capabilities for the Gateway habitation module and lunar surface mobility, ensuring interoperability with Artemis architecture."',
+        characteristicFormulation: 'Japan will provide critical capabilities for the Gateway habitation module and lunar surface mobility, ensuring interoperability with Artemis architecture.',
+        formulationKind: 'paraphrase',
         translationType: 'functional',
         humanityReferent: 'scientific_commons',
         infrastructureLink: ['habitats', 'logistics', 'nav'],
@@ -299,7 +308,9 @@ const COUNTRY_ENTRIES: CountryEntry[] = [
     id: 'india',
     name: 'India',
     code: 'IN',
-    coalition: 'dual',
+    // Signed the Artemis Accords on 21 June 2023 (27th signatory):
+    // https://www.nasa.gov/news-release/nasa-welcomes-india-as-27th-artemis-accords-signatory
+    coalition: 'artemis',
     primaryAudience: 'Domestic Industry / Global South',
     legitimationStrategy: 'Centralized gateway authority. Single authorization body (IN-SPACe) controls all space activity, combining "opening up" rhetoric with concentrated permission power.',
     rulesDensity: 6,
@@ -308,9 +319,10 @@ const COUNTRY_ENTRIES: CountryEntry[] = [
     documents: [
       {
         id: 'doc-in-01',
-        documentId: 'IN-SAB-2023',
-        coalition: 'dual',
-        characteristicFormulation: '"No person shall undertake any space activity unless authorized by the Central Government through the designated body."',
+        documentId: 'IN-ISP-2023',
+        coalition: 'artemis',
+        characteristicFormulation: '“Authorisation” shall mean the permission granted by IN-SPACe to any entity working in the Space sector;',
+        formulationKind: 'verbatim',
         translationType: 'normative',
         humanityReferent: 'future_generations',
         infrastructureLink: ['comms', 'nav', 'ISRU'],
@@ -326,7 +338,7 @@ const COUNTRY_ENTRIES: CountryEntry[] = [
           legitimationNarrative: '"Democratizing access to space" through centralized authorization. The normative claim of openness is delivered via a single gateway that concentrates all permission power.',
         },
         stage3: {
-          interpretiveControl: 'IN-SPACe (Central Government body) holds exclusive authority to define "authorized entity" criteria',
+          interpretiveControl: 'IN-SPACe, as the single-window authorising agency, subject to Government directives (Indian Space Policy 2023, Section 5)',
           discretionMechanism: 'Single-gateway authorization: all commercial and international space activity by Indian entities requires IN-SPACe approval, with undefined selection criteria',
           powerEffect: 'Market liberalization rhetoric concentrates authority. "Opening up" creates a gatekeeper with unchecked discretion over who participates.',
         },
@@ -339,20 +351,21 @@ const COUNTRY_ENTRIES: CountryEntry[] = [
     code: 'LU',
     coalition: 'artemis',
     primaryAudience: 'Commercial Actors / Space Industry',
-    legitimationStrategy: 'Legislative fait accompli. Unilateral definition of resource rights through negative framing ("not appropriation") that exploits OST silence.',
+    legitimationStrategy: 'Legislative fait accompli. Article 1 declares space resources "susceptibles d’appropriation" (capable of being appropriated), using the very term OST Article II applies to celestial bodies.',
     rulesDensity: 4,
     universalistClaim: '"Resources benefit from legal certainty" — framed through rule of law',
-    specificAuthority: 'Unilaterally defines what "appropriation" is NOT, permitting commercial extraction without multilateral consent.',
+    specificAuthority: 'Unilaterally declares space resources appropriable and licenses extraction (Art. 2) without multilateral consent.',
     documents: [
       {
         id: 'doc-lu-01',
         documentId: 'LUX-SRL-2017',
         coalition: 'artemis',
-        characteristicFormulation: '"Space resources are capable of being owned." — Distinct from sovereignty over celestial bodies.',
+        characteristicFormulation: 'Les ressources de l’espace sont susceptibles d’appropriation.',
+        formulationKind: 'verbatim',
         translationType: 'epistemic',
         humanityReferent: 'future_generations',
         infrastructureLink: ['ISRU', 'logistics'],
-        authorityMechanism: 'Negative definition strategy: defines what appropriation is NOT to permit what it IS. Exploits the definitional gap in OST Article II.',
+        authorityMechanism: 'Affirmative declaration: resources are appropriable, while "space resources" and their boundary with celestial bodies are left undefined. Exploits the definitional gap in OST Article II.',
         stage1: {
           referent: 'Commercial space actors and future resource extractors as agents of economic progress',
           referentCategory: 'future_generations',
@@ -361,11 +374,11 @@ const COUNTRY_ENTRIES: CountryEntry[] = [
         stage2: {
           justificatoryVocabulary: ['Legal Certainty', 'Ownership', 'Rule of Law', 'Investment Security'],
           translationDevice: 'epistemic',
-          legitimationNarrative: 'Epistemic authority through legal expertise. Luxembourg defines the boundary between "appropriation" (prohibited) and "ownership" (permitted) through domestic statute, creating an interpretive precedent.',
+          legitimationNarrative: 'Epistemic authority through legal expertise. Luxembourg treats resources as appropriable while celestial bodies are not, drawing that boundary through domestic statute and creating an interpretive precedent.',
         },
         stage3: {
-          interpretiveControl: 'Luxembourg Government unilaterally defines the line between prohibited "appropriation" and permitted "ownership"',
-          discretionMechanism: 'Negative definition: defines what appropriation is NOT rather than what it IS, claiming the remainder as permitted by default',
+          interpretiveControl: 'Luxembourg legislature and licensing ministers decide what counts as an appropriable space resource',
+          discretionMechanism: 'Affirmative declaration with an undefined object: "space resources" is not defined, so the reach of the appropriation rule is set by mission authorisations',
           powerEffect: 'Creates a legal precedent that other states can adopt. Shifts the burden of proof: extraction is assumed legal unless proven to be "appropriation."',
         },
       },
@@ -386,7 +399,8 @@ const COUNTRY_ENTRIES: CountryEntry[] = [
         id: 'doc-ae-01',
         documentId: 'UAE-LAW-2019',
         coalition: 'artemis',
-        characteristicFormulation: '"The Agency may... restrict access to data or information if disclosure would affect the national interest or security of the State."',
+        characteristicFormulation: 'The Agency may restrict access to data or information if disclosure would affect the national interest or security of the State.',
+        formulationKind: 'paraphrase',
         translationType: 'functional',
         humanityReferent: 'scientific_commons',
         infrastructureLink: ['comms', 'SSA'],
@@ -424,7 +438,8 @@ const COUNTRY_ENTRIES: CountryEntry[] = [
         id: 'doc-esa-01',
         documentId: 'ESA-STMT-2023',
         coalition: 'artemis',
-        characteristicFormulation: '"ESA welcomes the principles... and will continue to work within the UN framework for the development of international norms."',
+        characteristicFormulation: 'they are only open to signature by individual states, which is why ESA is not a signatory nor is it involved in the process',
+        formulationKind: 'verbatim',
         translationType: 'normative',
         humanityReferent: 'scientific_commons',
         infrastructureLink: ['nav', 'comms', 'habitats'],

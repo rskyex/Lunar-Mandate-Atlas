@@ -4,7 +4,7 @@ A forensic analysis of how universalist language allocates institutional authori
 
 ## Overview
 
-LGT examines the "Double Movement" in lunar governance: how universal claims ("for all humanity," "open to all countries") simultaneously produce concentrated institutional authority. The platform tracks 13 governance documents from 8 major space-faring nations and coalitions, mapping the mechanisms through which ambiguous language becomes operational power.
+LGT examines the "Double Movement" in lunar governance: how universal claims ("for all humanity," "open to all countries") simultaneously produce concentrated institutional authority. The platform analyses 11 governance documents from 8 space-faring states and agencies (15 documents in the registry, including the Outer Space Treaty and the instruments cited by discretion points), mapping the mechanisms through which ambiguous language becomes operational power.
 
 ### The Beetham-Koyanagi Legitimation Triad
 
@@ -22,7 +22,7 @@ Visualizes the Double Movement across 8 countries grouped by coalition. Each cou
 
 ### Discretion Registry
 
-Searchable, filterable table of 17 power-deferral points where ambiguous language concentrates authority. Discretion types include open-ended qualifiers, procedural deferrals, definitional gaps, interpretive monopolies, and carve-outs. Each entry shows the characteristic formulation, holder, and authority implications.
+Searchable, filterable table of 16 power-deferral points where ambiguous language concentrates authority. Discretion types include open-ended qualifiers, procedural deferrals, definitional gaps, interpretive monopolies, and carve-outs. Each entry shows the characteristic formulation (marked verbatim or paraphrase, with source link and pinpoint), holder, and authority implications. Rows are keyboard-operable buttons.
 
 ### Infrastructure Nexus
 
@@ -30,23 +30,23 @@ Maps 7 infrastructure categories (communications, navigation, power, ISRU, habit
 
 ### Coalition Tracker
 
-Dual-axis timeline of 14 events (1967–2026) tracking Artemis (43+ signatories) vs. ILRS (12+ partners) expansion. Includes side-by-side strategy comparison and confidence-level indicators for each event.
+Dual-axis timeline of 15 events (1967–2026) tracking Artemis (78 signatories as of 28 October 2026, per NASA) vs. ILRS (cooperation documents with "more than ten countries and international organisations" as of June 2024, per CNSA; no official country-only count) expansion. Each event links its source. Includes side-by-side strategy comparison and confidence-level indicators for each event.
 
 ## Countries Tracked
 
 | Coalition | Countries | Legitimation Strategy |
 |-----------|-----------|-----------------------|
-| **Artemis** | USA, Japan, Luxembourg, UAE, ESA | Functional — safety, interoperability, transparency |
+| **Artemis** | USA, Japan, Luxembourg, UAE, India (signed 21 June 2023), ESA member states (ESA itself is not a signatory) | Functional — safety, interoperability, transparency |
 | **ILRS** | China, Russia | Normative — equality, inclusivity, mutual benefit |
-| **Dual-aligned** | India | Hybrid — sovereign flexibility with selective engagement |
 
 ## Data
 
 - **8** countries/entities tracked
-- **13** governance documents analyzed (2008–2024)
-- **17** discretion points identified
+- **11** governance documents analysed in the country profiles (2008–2026)
+- **15** documents in the documents registry
+- **16** discretion points identified
 - **7** infrastructure-governance nexus links
-- **14** coalition timeline events
+- **15** coalition timeline events
 
 ## Visual Design
 
@@ -77,7 +77,8 @@ npm run dev
 | Command | Description |
 |---------|-------------|
 | `npm run dev` | Start development server |
-| `npm run build` | Type-check and build for production |
+| `npm run build` | Check data and README counts, type-check and build for production |
+| `npm run check:data` | Check document ids, quote sourcing (verbatim needs a checked source) and README counts |
 | `npm run lint` | Run ESLint |
 | `npm run preview` | Preview production build |
 

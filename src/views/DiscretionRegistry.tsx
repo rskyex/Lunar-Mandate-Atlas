@@ -30,17 +30,31 @@ function TypeBadge({ type }: { type: DiscretionType }) {
   );
 }
 
-function ExpandedRow({ point }: { point: DiscretionPoint }) {
+function ExpandedRow({ point, id }: { point: DiscretionPoint; id: string }) {
   const style = getCoalitionStyle(point.coalition);
   return (
-    <div className="bg-bg-primary border border-border-bright rounded-lg p-4 mt-2 space-y-3">
+    <div id={id} className="bg-bg-primary border border-border-bright rounded-lg p-4 mt-2 space-y-3">
       {/* Characteristic Formulation */}
       <div className="border-l-2 border-accent-red pl-3">
         <div className="data-mono text-[10px] text-accent-red uppercase tracking-wider mb-1">
-          Characteristic Formulation
+          Characteristic Formulation — {point.formulationKind === 'verbatim' ? 'verbatim' : 'paraphrase (not the source’s words)'}
+          {point.sourceStatus === 'unverified' && <span className="ml-2 text-accent-amber">· unverified</span>}
         </div>
-        <p className="text-sm text-text-primary italic leading-relaxed">
-          {point.characteristicFormulation}
+        {point.formulationKind === 'verbatim' ? (
+          <blockquote className="text-sm text-text-primary italic leading-relaxed">
+            &ldquo;{point.characteristicFormulation}&rdquo;
+          </blockquote>
+        ) : (
+          <p className="text-sm text-text-primary leading-relaxed">{point.characteristicFormulation}</p>
+        )}
+        <p className="data-mono text-[10px] text-text-muted mt-1">
+          {point.sourceUrl ? (
+            <a href={point.sourceUrl} target="_blank" rel="noopener noreferrer" className="underline decoration-dotted hover:text-accent-cyan">
+              {point.pinpoint}
+            </a>
+          ) : (
+            <>{point.pinpoint} — no checkable source found</>
+          )}
         </p>
       </div>
 
@@ -53,7 +67,7 @@ function ExpandedRow({ point }: { point: DiscretionPoint }) {
       </div>
 
       {/* Metadata row */}
-      <div className="flex items-center gap-4 pt-2 border-t border-border">
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-1 pt-2 border-t border-border">
         <div>
           <span className="data-mono text-[10px] text-text-muted">DOCUMENT: </span>
           {point.documentIds.map((id, i) => {
@@ -143,7 +157,7 @@ export function DiscretionRegistry(_props: DiscretionRegistryProps) {
       {/* Table */}
       <div className="space-y-2">
         {/* Header Row */}
-        <div className="grid grid-cols-[200px_1fr_180px_200px] gap-3 px-3 py-2 text-[10px] data-mono text-text-muted uppercase tracking-wider border-b border-border">
+        <div aria-hidden="true" className="hidden md:grid grid-cols-[200px_1fr_180px_200px] gap-3 px-3 py-2 text-[10px] data-mono text-text-muted uppercase tracking-wider border-b border-border">
           <span>Term</span>
           <span>Document</span>
           <span>Type</span>
@@ -154,34 +168,40 @@ export function DiscretionRegistry(_props: DiscretionRegistryProps) {
         {filtered.map((point) => {
           const style = getCoalitionStyle(point.coalition);
           const isExpanded = expandedId === point.id;
+          const panelId = `${point.id}-evidence`;
           return (
             <div key={point.id}>
-              <div
-                className={`grid grid-cols-[200px_1fr_180px_200px] gap-3 px-3 py-3 rounded-lg cursor-pointer transition-all ${
+              <button
+                type="button"
+                aria-expanded={isExpanded}
+                aria-controls={panelId}
+                className={`w-full text-left grid grid-cols-1 md:grid-cols-[200px_1fr_180px_200px] gap-1 md:gap-3 px-3 py-3 rounded-lg cursor-pointer transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent-cyan ${
                   isExpanded
                     ? 'bg-bg-elevated border border-border-bright'
                     : 'hover:bg-bg-card border border-transparent'
                 }`}
                 onClick={() => setExpandedId(isExpanded ? null : point.id)}
               >
-                <div className="flex items-center gap-2">
+                <span className="flex items-center gap-2">
                   <span className={`text-sm font-medium ${style.text}`}>
                     {point.term}
                   </span>
-                </div>
-                <div className="flex items-center">
-                  <span className="data-mono text-xs text-text-secondary truncate">
+                </span>
+                <span className="flex items-center min-w-0">
+                  <span className="md:hidden data-mono text-[10px] text-text-muted mr-1">DOCUMENT:</span>
+                  <span className="data-mono text-xs text-text-secondary md:truncate">
                     {point.document} — {point.section}
                   </span>
-                </div>
-                <div className="flex items-center">
+                </span>
+                <span className="flex items-center">
                   <TypeBadge type={point.type} />
-                </div>
-                <div className="flex items-center">
-                  <span className="text-xs text-text-secondary truncate">{point.holder}</span>
-                </div>
-              </div>
-              {isExpanded && <ExpandedRow point={point} />}
+                </span>
+                <span className="flex items-center min-w-0">
+                  <span className="md:hidden data-mono text-[10px] text-text-muted mr-1">HOLDER:</span>
+                  <span className="text-xs text-text-secondary md:truncate">{point.holder}</span>
+                </span>
+              </button>
+              {isExpanded && <ExpandedRow point={point} id={panelId} />}
             </div>
           );
         })}

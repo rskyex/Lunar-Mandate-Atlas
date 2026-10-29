@@ -11,7 +11,8 @@
   --color-accent-red: #f85149;
   --color-text-primary: #e6edf3;
   --color-text-secondary: #8b949e;
-  --color-text-muted: #484f58;
+  /* At least 4.5:1 against bg-primary, bg-card and bg-elevated (5.0:1 at worst) */
+  --color-text-muted: #8590a0;
   --font-sans: "Inter", system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
 }

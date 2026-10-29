@@ -104,7 +104,7 @@ export function AuthorityMap({ onSelectDocument }: AuthorityMapProps) {
       </div>
 
       {/* Legend */}
-      <div className="flex items-center gap-6 text-xs">
+      <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-xs">
         <div className="flex items-center gap-2">
           <div className="w-3 h-3 rounded-full bg-accent-cyan" />
           <span className="text-text-secondary">Artemis — Functional / Procedural</span>

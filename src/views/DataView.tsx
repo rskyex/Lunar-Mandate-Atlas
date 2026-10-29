@@ -61,8 +61,9 @@ export function DataView() {
           top (in pandas, read with <span className="data-mono text-accent-cyan">comment="#"</span>).
         </p>
         <p>
-          The holder and implication fields are researcher coding. The characteristic formulation
-          should be checked against the governing document named in each record.
+          The holder and implication fields are researcher coding. Each characteristic formulation is
+          marked verbatim or paraphrase, with the source URL and pinpoint where it was read; records
+          whose wording could not be checked against a source are marked unverified.
         </p>
       </div>
 

@@ -82,7 +82,7 @@ export function InfrastructureNexus(_props: InfrastructureNexusProps) {
       </div>
 
       {/* Flow diagram representation */}
-      <div className="flex items-center justify-center gap-2 py-3">
+      <div className="flex flex-wrap items-center justify-center gap-2 py-3">
         <div className="bg-bg-card border border-border rounded px-3 py-2">
           <span className="data-mono text-xs text-text-secondary">Infrastructure</span>
         </div>

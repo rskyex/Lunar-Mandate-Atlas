@@ -1,4 +1,4 @@
-import { COUNTRIES, DISCRETION_POINTS, TIMELINE_EVENTS } from '../data';
+import { COUNTRIES, DISCRETION_POINTS, latestCoalitionSize } from '../data';
 
 interface HomeViewProps {
   onNavigate: (view: string) => void;
@@ -11,8 +11,8 @@ export function HomeView({ onNavigate }: HomeViewProps) {
   const artemisCount = COUNTRIES.filter(c => c.coalition === 'artemis').length;
   const ilrsCount = COUNTRIES.filter(c => c.coalition === 'ilrs').length;
   const dualCount = COUNTRIES.filter(c => c.coalition === 'dual' || c.coalition === 'independent').length;
-  const latestArtemisMembers = [...TIMELINE_EVENTS].reverse().find(e => e.coalition === 'artemis' && e.memberCount)?.memberCount || 0;
-  const latestILRSMembers = [...TIMELINE_EVENTS].reverse().find(e => e.coalition === 'ilrs' && e.memberCount)?.memberCount || 0;
+  const artemisSize = latestCoalitionSize('artemis');
+  const ilrsSize = latestCoalitionSize('ilrs');
 
   return (
     <div className="space-y-8">
@@ -64,15 +64,17 @@ export function HomeView({ onNavigate }: HomeViewProps) {
         </div>
         <div className="bg-bg-card border border-accent-cyan/30 rounded-lg p-4 text-center">
           <div className="flex items-baseline justify-center gap-1">
-            <span className="text-2xl font-light text-accent-cyan">{latestArtemisMembers}+</span>
+            <span className="text-2xl font-light text-accent-cyan">{artemisSize?.count ?? '—'}{artemisSize?.lowerBound ? '+' : ''}</span>
           </div>
-          <div className="data-mono text-[10px] text-accent-cyan/70 uppercase tracking-wider mt-1">Artemis Signatories</div>
+          <div className="data-mono text-[10px] text-accent-cyan uppercase tracking-wider mt-1">Artemis Signatories</div>
+          {artemisSize && <div className="data-mono text-[10px] text-text-muted mt-0.5">as of {artemisSize.asOf}</div>}
         </div>
         <div className="bg-bg-card border border-accent-amber/30 rounded-lg p-4 text-center">
           <div className="flex items-baseline justify-center gap-1">
-            <span className="text-2xl font-light text-accent-amber">{latestILRSMembers}+</span>
+            <span className="text-2xl font-light text-accent-amber">{ilrsSize?.count ?? '—'}{ilrsSize?.lowerBound ? '+' : ''}</span>
           </div>
-          <div className="data-mono text-[10px] text-accent-amber/70 uppercase tracking-wider mt-1">ILRS Partners</div>
+          <div className="data-mono text-[10px] text-accent-amber uppercase tracking-wider mt-1">ILRS Partners</div>
+          {ilrsSize && <div className="data-mono text-[10px] text-text-muted mt-0.5" title={ilrsSize.note}>as of {ilrsSize.asOf}{ilrsSize.note ? ' · countries and organisations' : ''}</div>}
         </div>
       </div>
 

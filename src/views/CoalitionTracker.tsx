@@ -1,4 +1,4 @@
-import { TIMELINE_EVENTS } from '../data';
+import { TIMELINE_EVENTS, latestCoalitionSize } from '../data';
 import type { TimelineEvent, ConfidenceLevel } from '../data';
 
 interface CoalitionTrackerProps {
@@ -52,17 +52,17 @@ function TimelineNode({ event, index }: { event: TimelineEvent; index: number })
     : `bg-transparent border-2 ${isArtemis ? 'border-accent-cyan' : isILRS ? 'border-accent-amber' : 'border-text-muted'}`;
 
   // Position: Artemis on left, ILRS on right, dual centered
-  const alignment = isArtemis ? 'pr-[52%]' : isILRS ? 'pl-[52%]' : 'px-[20%]';
+  const alignment = isArtemis ? 'sm:pr-[52%]' : isILRS ? 'sm:pl-[52%]' : 'sm:px-[20%]';
 
   return (
     <div className={`relative ${alignment}`}>
       {/* Timeline dot */}
       <div
-        className={`absolute top-4 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full ${dotStyle} ring-4 ring-bg-primary z-10`}
+        className={`hidden sm:block absolute top-4 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full ${dotStyle} ring-4 ring-bg-primary z-10`}
       />
 
       {/* Connector line */}
-      <div className={`absolute top-4 left-1/2 w-px bg-border ${
+      <div className={`hidden sm:block absolute top-4 left-1/2 w-px bg-border ${
         index === TIMELINE_EVENTS.length - 1 ? 'h-0' : 'h-full'
       }`} />
 
@@ -74,8 +74,8 @@ function TimelineNode({ event, index }: { event: TimelineEvent; index: number })
               <ConfidenceDot level={event.confidence} coalition={event.coalition} />
               <span className="data-mono text-[10px] text-text-muted">{event.date}</span>
               {event.memberCount && (
-                <span className={`data-mono text-[10px] ${labelColor}`}>
-                  {event.memberCount} members
+                <span className={`data-mono text-[10px] ${labelColor}`} title={event.memberCountNote}>
+                  {event.memberCount}{event.memberCountNote ? '+' : ''} members
                 </span>
               )}
             </div>
@@ -87,6 +87,12 @@ function TimelineNode({ event, index }: { event: TimelineEvent; index: number })
         </div>
 
         <p className="text-xs text-text-secondary leading-relaxed mb-2">{event.significance}</p>
+
+        {event.sourceUrl && (
+          <a href={event.sourceUrl} target="_blank" rel="noopener noreferrer" className="data-mono text-[10px] text-text-muted underline decoration-dotted hover:text-accent-cyan">
+            Source
+          </a>
+        )}
 
         {event.analyticNote && (
           <div className="border-l-2 border-accent-red/40 pl-2 mt-2">
@@ -100,12 +106,10 @@ function TimelineNode({ event, index }: { event: TimelineEvent; index: number })
 }
 
 export function CoalitionTracker(_props: CoalitionTrackerProps) {
-  const artemisEvents = TIMELINE_EVENTS.filter(e => e.coalition === 'artemis');
-  const ilrsEvents = TIMELINE_EVENTS.filter(e => e.coalition === 'ilrs');
 
-  // Get latest member counts
-  const latestArtemis = [...artemisEvents].reverse().find(e => e.memberCount)?.memberCount || 0;
-  const latestILRS = [...ilrsEvents].reverse().find(e => e.memberCount)?.memberCount || 0;
+  // Latest dated member counts
+  const artemisSize = latestCoalitionSize('artemis');
+  const ilrsSize = latestCoalitionSize('ilrs');
 
   return (
     <div className="space-y-6">
@@ -118,14 +122,14 @@ export function CoalitionTracker(_props: CoalitionTrackerProps) {
       </div>
 
       {/* Comparative Stats */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="border border-accent-cyan/30 rounded-lg p-4 bg-bg-card glow-cyan">
           <div className="flex items-center gap-2 mb-2">
             <div className="w-2 h-2 rounded-full bg-accent-cyan" />
             <span className="data-mono text-accent-cyan text-sm">ARTEMIS ACCORDS</span>
           </div>
-          <div className="text-3xl font-light text-text-primary mb-1">{latestArtemis}+</div>
-          <div className="data-mono text-[10px] text-text-muted uppercase">Signatories</div>
+          <div className="text-3xl font-light text-text-primary mb-1">{artemisSize?.count ?? '—'}{artemisSize?.lowerBound ? '+' : ''}</div>
+          <div className="data-mono text-[10px] text-text-muted uppercase">Signatories{artemisSize ? `, as of ${artemisSize.asOf}` : ''}</div>
           <div className="mt-3 border-t border-border pt-3">
             <div className="data-mono text-[10px] text-text-muted uppercase mb-1">Strategy</div>
             <p className="text-xs text-text-secondary">
@@ -140,8 +144,8 @@ export function CoalitionTracker(_props: CoalitionTrackerProps) {
             <div className="w-2 h-2 rounded-full bg-accent-amber" />
             <span className="data-mono text-accent-amber text-sm">ILRS PROGRAMME</span>
           </div>
-          <div className="text-3xl font-light text-text-primary mb-1">{latestILRS}+</div>
-          <div className="data-mono text-[10px] text-text-muted uppercase">Partners</div>
+          <div className="text-3xl font-light text-text-primary mb-1">{ilrsSize?.count ?? '—'}{ilrsSize?.lowerBound ? '+' : ''}</div>
+          <div className="data-mono text-[10px] text-text-muted uppercase" title={ilrsSize?.note}>Partners{ilrsSize ? `, as of ${ilrsSize.asOf}` : ''}{ilrsSize?.note ? ' (countries and organisations)' : ''}</div>
           <div className="mt-3 border-t border-border pt-3">
             <div className="data-mono text-[10px] text-text-muted uppercase mb-1">Strategy</div>
             <p className="text-xs text-text-secondary">
@@ -205,7 +209,7 @@ export function CoalitionTracker(_props: CoalitionTrackerProps) {
           </div>
         </div>
         {/* Confidence Legend */}
-        <div className="flex items-center gap-5 mb-4 text-[10px] data-mono text-text-muted">
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-1 mb-4 text-[10px] data-mono text-text-muted">
           <span className="uppercase tracking-wider">Confidence:</span>
           <span className="flex items-center gap-1"><span className="text-text-secondary">{CONFIDENCE_LABELS.confirmed.symbol}</span> Confirmed</span>
           <span className="flex items-center gap-1"><span className="text-text-secondary">{CONFIDENCE_LABELS.stated_intent.symbol}</span> Stated Intent</span>

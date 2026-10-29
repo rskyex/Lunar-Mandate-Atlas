@@ -5,8 +5,8 @@ import type { DiscretionPoint } from '../data';
 
 // Bump these whenever discretion point records change.
 // DATASET_LAST_UPDATED is the date of the last change to src/data.
-export const DATASET_VERSION = '1.1.0';
-export const DATASET_LAST_UPDATED = '2026-10-28';
+export const DATASET_VERSION = '1.2.0';
+export const DATASET_LAST_UPDATED = '2026-10-29';
 export const SITE_URL = 'https://lunar-mandate-atlas.vercel.app';
 
 export const DISCRETION_COLUMNS: { key: string; description: string }[] = [
@@ -20,7 +20,11 @@ export const DISCRETION_COLUMNS: { key: string; description: string }[] = [
   { key: 'typeLabel', description: 'Readable discretion type.' },
   { key: 'holder', description: 'Who holds interpretive control over the term (researcher coding).' },
   { key: 'coalition', description: 'artemis, ilrs, national or ost.' },
-  { key: 'characteristicFormulation', description: 'Characteristic wording associated with the term.' },
+  { key: 'characteristicFormulation', description: 'Characteristic wording associated with the term (no surrounding quotation marks).' },
+  { key: 'formulationKind', description: 'verbatim (the source’s own words) or paraphrase (researcher summary).' },
+  { key: 'sourceUrl', description: 'Where the wording was read; empty when no checkable source was found.' },
+  { key: 'pinpoint', description: 'Exact location in the source (article, section, page).' },
+  { key: 'sourceStatus', description: 'verified (checked against sourceUrl) or unverified.' },
   { key: 'implication', description: 'Researcher interpretation of the implication for authority.' },
 ];
 
@@ -38,7 +42,7 @@ export const discretionMeta: DatasetMeta = {
   version: DATASET_VERSION,
   lastUpdated: DATASET_LAST_UPDATED,
   recordCount: DISCRETION_POINTS.length,
-  note: 'holder and implication are researcher coding; check characteristicFormulation against the source document.',
+  note: 'holder and implication are researcher coding. characteristicFormulation is verbatim or paraphrase as stated in formulationKind, located by sourceUrl and pinpoint.',
   source: `${SITE_URL}/#data`,
 };
 
@@ -55,6 +59,10 @@ function row(p: DiscretionPoint): Record<string, string> {
     holder: p.holder,
     coalition: p.coalition,
     characteristicFormulation: p.characteristicFormulation,
+    formulationKind: p.formulationKind,
+    sourceUrl: p.sourceUrl ?? '',
+    pinpoint: p.pinpoint,
+    sourceStatus: p.sourceStatus,
     implication: p.implication,
   };
 }
