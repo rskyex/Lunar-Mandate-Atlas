@@ -7,7 +7,8 @@ interface HomeViewProps {
 export function HomeView({ onNavigate }: HomeViewProps) {
   // Compute metrics
   const totalDocuments = COUNTRIES.reduce((sum, c) => sum + c.documents.length, 0);
-  const totalDiscretionPoints = DISCRETION_POINTS.length;
+  // Counted under the codebook's selection rule (the registry also shows excluded points).
+  const totalDiscretionPoints = DISCRETION_POINTS.filter(p => p.included).length;
   const artemisCount = COUNTRIES.filter(c => c.coalition === 'artemis').length;
   const ilrsCount = COUNTRIES.filter(c => c.coalition === 'ilrs').length;
   const dualCount = COUNTRIES.filter(c => c.coalition === 'dual' || c.coalition === 'independent').length;
@@ -60,7 +61,7 @@ export function HomeView({ onNavigate }: HomeViewProps) {
         </div>
         <div className="bg-bg-card border border-border rounded-lg p-4 text-center">
           <div className="text-2xl font-light text-accent-red">{totalDiscretionPoints}</div>
-          <div className="data-mono text-[10px] text-text-muted uppercase tracking-wider mt-1">Discretion Points Identified</div>
+          <div className="data-mono text-[10px] text-text-muted uppercase tracking-wider mt-1">Discretion Points Counted</div>
         </div>
         <div className="bg-bg-card border border-accent-cyan/30 rounded-lg p-4 text-center">
           <div className="flex items-baseline justify-center gap-1">
