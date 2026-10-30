@@ -1,5 +1,8 @@
 import { useState } from 'react';
-import { DISCRETION_POINTS, DISCRETION_TYPE_LABELS, getDocument } from '../data';
+import {
+  DISCRETION_POINTS, DISCRETION_TYPE_LABELS, getDocument,
+  UNIT_DEFINITION, TYPE_RULES, EMPTY_TYPE_NOTE, HOLDER_RULE, COALITION_RULE, SELECTION_RULE,
+} from '../data';
 import type { DiscretionPoint, DiscretionType } from '../data';
 
 interface DiscretionRegistryProps {
@@ -30,10 +33,56 @@ function TypeBadge({ type }: { type: DiscretionType }) {
   );
 }
 
+function Codebook() {
+  const counted = DISCRETION_POINTS.filter((p) => p.included);
+  return (
+    <details className="bg-bg-card border border-border rounded-lg p-4 text-xs text-text-secondary">
+      <summary className="cursor-pointer data-mono text-[11px] text-text-primary uppercase tracking-wider">
+        Codebook — how points are typed, attributed and selected
+      </summary>
+      <div className="mt-3 space-y-3 leading-relaxed">
+        <p>{UNIT_DEFINITION}</p>
+        <p className="text-text-muted">Apply the tests in order; the first &ldquo;yes&rdquo; decides the type.</p>
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[560px]">
+            <thead>
+              <tr className="text-left data-mono text-[10px] text-text-muted uppercase">
+                <th scope="col" className="py-1 pr-3">Type</th>
+                <th scope="col" className="py-1 pr-3">Definition</th>
+                <th scope="col" className="py-1 pr-3">Decision test</th>
+                <th scope="col" className="py-1">Anchor / counted</th>
+              </tr>
+            </thead>
+            <tbody>
+              {TYPE_RULES.map((r) => (
+                <tr key={r.type} className="border-t border-border align-top">
+                  <td className="py-2 pr-3"><TypeBadge type={r.type} /></td>
+                  <td className="py-2 pr-3">{r.definition}</td>
+                  <td className="py-2 pr-3">{r.test}</td>
+                  <td className="py-2 data-mono">
+                    {r.anchors.length ? r.anchors.join(', ') : 'none'} / {counted.filter((p) => p.type === r.type).length}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <p>{EMPTY_TYPE_NOTE}</p>
+        <p><span className="text-text-primary">Holder.</span> {HOLDER_RULE}</p>
+        <p><span className="text-text-primary">Coalition.</span> {COALITION_RULE}</p>
+        <p><span className="text-text-primary">Selection.</span> {SELECTION_RULE}</p>
+      </div>
+    </details>
+  );
+}
+
 function ExpandedRow({ point, id }: { point: DiscretionPoint; id: string }) {
   const style = getCoalitionStyle(point.coalition);
   return (
     <div id={id} className="bg-bg-primary border border-border-bright rounded-lg p-4 mt-2 space-y-3">
+      {!point.included && (
+        <p className="text-xs text-accent-amber">Shown, not counted: {point.exclusionReason}</p>
+      )}
       {/* Characteristic Formulation */}
       <div className="border-l-2 border-accent-red pl-3">
         <div className="data-mono text-[10px] text-accent-red uppercase tracking-wider mb-1">
@@ -150,9 +199,11 @@ export function DiscretionRegistry(_props: DiscretionRegistryProps) {
           </select>
         </div>
         <span className="text-text-muted data-mono text-[10px] ml-auto">
-          {filtered.length} DISCRETION POINTS
+          {filtered.filter((p) => p.included).length} COUNTED · {filtered.length} SHOWN
         </span>
       </div>
+
+      <Codebook />
 
       {/* Table */}
       <div className="space-y-2">
@@ -186,6 +237,7 @@ export function DiscretionRegistry(_props: DiscretionRegistryProps) {
                   <span className={`text-sm font-medium ${style.text}`}>
                     {point.term}
                   </span>
+                  {!point.included && <span className="data-mono text-[10px] text-accent-amber">not counted</span>}
                 </span>
                 <span className="flex items-center min-w-0">
                   <span className="md:hidden data-mono text-[10px] text-text-muted mr-1">DOCUMENT:</span>

@@ -115,10 +115,14 @@ export function HomeView({ onNavigate }: HomeViewProps) {
             <span className="text-accent-red">discretionary authority</span> (&ldquo;who holds the power to define ambiguous terms&rdquo;) in specific institutional actors.
           </p>
           <p>
-            The core finding of the Beetham-Koyanagi Legitimation Triad: invoking a universal subject (&ldquo;Humanity,&rdquo;
-            &ldquo;All countries,&rdquo; &ldquo;Future generations&rdquo;) simultaneously produces institutional control.
-            The broader the claim, the greater the authority accumulated by the claimant. This is not a failure of
-            cooperation — it is the mechanism through which cooperation allocates power.
+            Working proposition: documents that invoke a broader universal subject (&ldquo;all humankind,&rdquo;
+            &ldquo;all interested countries&rdquo;) tend to leave more discretion with the actor invoking it. The
+            registry gives examples of this pattern; it does not measure breadth of claim or amount of authority,
+            and its points were not selected to test the proposition.
+          </p>
+          <p className="text-xs text-text-muted">
+            Coding scheme: three stages adapted from David Beetham&apos;s dimensions of legitimacy
+            (<i>The Legitimation of Power</i>, 1991) — the author&apos;s framework.
           </p>
         </div>
       </div>

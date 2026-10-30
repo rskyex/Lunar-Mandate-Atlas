@@ -13,9 +13,11 @@ function getCoalitionTag(coalition: string) {
   }
 }
 
+const RULES_SPECIFICITY_NOTE = 'Rules specificity (author judgement, 1–10). No rubric; not a measure of binding provisions.';
+
 function RulesDensityBar({ value }: { value: number }) {
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2" title={RULES_SPECIFICITY_NOTE} aria-label={`Rules specificity ${value} of 10 (author judgement)`}>
       <div className="flex-1 h-2 bg-bg-primary rounded-full overflow-hidden">
         <div
           className="h-full rounded-full transition-all"
@@ -117,8 +119,8 @@ export function AuthorityMap({ onSelectDocument }: AuthorityMapProps) {
           <div className="w-3 h-3 rounded-full bg-accent-red" />
           <span className="text-text-secondary">Discretion Points — Unilateral Power</span>
         </div>
-        <div className="flex items-center gap-2 ml-auto">
-          <span className="text-text-muted data-mono text-[10px]">RULES DENSITY →</span>
+        <div className="flex items-center gap-2">
+          <span className="text-text-muted data-mono text-[10px]">BAR: RULES SPECIFICITY (AUTHOR JUDGEMENT, NO RUBRIC)</span>
         </div>
       </div>
 

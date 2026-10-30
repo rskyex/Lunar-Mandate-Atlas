@@ -1,7 +1,8 @@
 // ═══════════════════════════════════════════════════════════════════
 // LGT — Lunar Governance Tracker
 // Data Engine & Coding Categories
-// Based on Beetham-Koyanagi Legitimation Triad (Cambridge 2026)
+// Coding scheme: a three-stage scheme adapted from David Beetham's dimensions of
+// legitimacy (The Legitimation of Power, 1991) — the author's framework
 // ═══════════════════════════════════════════════════════════════════
 
 // ─── A. Infrastructure Types ─────────────────────────────────────

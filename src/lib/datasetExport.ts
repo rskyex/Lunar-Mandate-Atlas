@@ -5,8 +5,8 @@ import type { DiscretionPoint } from '../data';
 
 // Bump these whenever discretion point records change.
 // DATASET_LAST_UPDATED is the date of the last change to src/data.
-export const DATASET_VERSION = '1.2.0';
-export const DATASET_LAST_UPDATED = '2026-10-29';
+export const DATASET_VERSION = '1.3.0';
+export const DATASET_LAST_UPDATED = '2026-10-30';
 export const SITE_URL = 'https://lunar-mandate-atlas.vercel.app';
 
 export const DISCRETION_COLUMNS: { key: string; description: string }[] = [
@@ -25,6 +25,8 @@ export const DISCRETION_COLUMNS: { key: string; description: string }[] = [
   { key: 'sourceUrl', description: 'Where the wording was read; empty when no checkable source was found.' },
   { key: 'pinpoint', description: 'Exact location in the source (article, section, page).' },
   { key: 'sourceStatus', description: 'verified (checked against sourceUrl) or unverified.' },
+  { key: 'included', description: 'true when counted under the codebook selection rule.' },
+  { key: 'exclusionReason', description: 'Why a point is shown but not counted.' },
   { key: 'implication', description: 'Researcher interpretation of the implication for authority.' },
 ];
 
@@ -42,7 +44,7 @@ export const discretionMeta: DatasetMeta = {
   version: DATASET_VERSION,
   lastUpdated: DATASET_LAST_UPDATED,
   recordCount: DISCRETION_POINTS.length,
-  note: 'holder and implication are researcher coding. characteristicFormulation is verbatim or paraphrase as stated in formulationKind, located by sourceUrl and pinpoint.',
+  note: 'type, holder, coalition and inclusion follow the codebook shown in the registry view (author coding). characteristicFormulation is verbatim or paraphrase as stated in formulationKind, located by sourceUrl and pinpoint.',
   source: `${SITE_URL}/#data`,
 };
 
@@ -63,6 +65,8 @@ function row(p: DiscretionPoint): Record<string, string> {
     sourceUrl: p.sourceUrl ?? '',
     pinpoint: p.pinpoint,
     sourceStatus: p.sourceStatus,
+    included: String(p.included),
+    exclusionReason: p.exclusionReason ?? '',
     implication: p.implication,
   };
 }

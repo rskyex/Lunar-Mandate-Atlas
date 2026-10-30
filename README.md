@@ -1,12 +1,14 @@
 # LGT — Lunar Governance Tracker
 
-A forensic analysis of how universalist language allocates institutional authority in cislunar space. Built on the **Beetham-Koyanagi Legitimation Triad** framework.
+A forensic analysis of how universalist language allocates institutional authority in cislunar space. It uses a three-stage coding scheme adapted from David Beetham's dimensions of legitimacy (*The Legitimation of Power*, 1991): the author's framework.
 
 ## Overview
 
-LGT examines the "Double Movement" in lunar governance: how universal claims ("for all humanity," "open to all countries") simultaneously produce concentrated institutional authority. The platform analyses 11 governance documents from 8 space-faring states and agencies (15 documents in the registry, including the Outer Space Treaty and the instruments cited by discretion points), mapping the mechanisms through which ambiguous language becomes operational power.
+LGT examines the "Double Movement" in lunar governance. Working proposition: documents that invoke a broader universal subject ("all humankind," "all interested countries") tend to leave more discretion with the actor invoking it. The registry illustrates this pattern; it does not measure breadth of claim or amount of authority, and its points were not selected to test it. The platform analyses 11 governance documents from 8 space-faring states and agencies (15 documents in the registry, including the Outer Space Treaty and the instruments cited by discretion points), mapping the mechanisms through which ambiguous language becomes operational power.
 
-### The Beetham-Koyanagi Legitimation Triad
+### Coding scheme (author's framework, adapted from Beetham)
+
+Beetham's dimensions are conformity to rules, justifiability of the rules by shared beliefs, and expressed consent. The stages below are adapted from them, not identical to them.
 
 | Stage | Question | Categories |
 |-------|----------|------------|
@@ -18,11 +20,11 @@ LGT examines the "Double Movement" in lunar governance: how universal claims ("f
 
 ### Authority Map
 
-Visualizes the Double Movement across 8 countries grouped by coalition. Each country card shows the universal claim vs. specific authority allocation, rules density score (1–10), legitimation strategy, and expandable governance documents with full 3-stage analysis.
+Visualizes the Double Movement across 8 countries grouped by coalition. Each country card shows the universal claim vs. specific authority allocation, rules specificity (1–10, author judgement with no rubric; not a measure of binding provisions), legitimation strategy, and expandable governance documents with full 3-stage analysis.
 
 ### Discretion Registry
 
-Searchable, filterable table of 16 power-deferral points where ambiguous language concentrates authority. Discretion types include open-ended qualifiers, procedural deferrals, definitional gaps, interpretive monopolies, and carve-outs. Each entry shows the characteristic formulation (marked verbatim or paraphrase, with source link and pinpoint), holder, and authority implications. Rows are keyboard-operable buttons.
+Searchable, filterable table of 16 power-deferral points where ambiguous language concentrates authority. Discretion types include open-ended qualifiers, procedural deferrals, definitional gaps, interpretive monopolies, and carve-outs. Each entry shows the characteristic formulation (marked verbatim or paraphrase, with source link and pinpoint), holder, and authority implications. Rows are keyboard-operable buttons. A codebook on the page gives each type's definition, decision test and anchor example, the holder and coalition rules, and the selection rule.
 
 ### Infrastructure Nexus
 
@@ -44,7 +46,7 @@ Dual-axis timeline of 15 events (1967–2026) tracking Artemis (78 signatories a
 - **8** countries/entities tracked
 - **11** governance documents analysed in the country profiles (2008–2026)
 - **15** documents in the documents registry
-- **16** discretion points identified
+- **16** discretion points shown, **14** counted under the selection rule
 - **7** infrastructure-governance nexus links
 - **15** coalition timeline events
 

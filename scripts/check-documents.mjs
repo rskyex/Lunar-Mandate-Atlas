@@ -2,8 +2,9 @@
 // is not in the documents registry (src/data/documents.ts), or if the registry
 // itself has duplicate ids or a title/alias shared by two documents. Also fails
 // if a discretion point's quote is marked verbatim without a checked source, if
-// a paraphrase is wrapped in quotation marks, or if the counts in README.md
-// differ from the data.
+// a paraphrase is wrapped in quotation marks, if a point lacks the codebook
+// fields (included / exclusionReason) or a codebook anchor is not a counted,
+// verified point of its type, or if the counts in README.md differ from the data.
 // Run: npm run check:docs (also runs before every build).
 import { readFileSync } from 'node:fs';
 import { createServer } from 'vite';
@@ -51,6 +52,18 @@ try {
       if (/^\s*["“]/.test(p.characteristicFormulation) && /["”]\s*$/.test(p.characteristicFormulation)) errors.push(`${p.id}: characteristicFormulation is wrapped in quotation marks; store the text bare`);
     }
     counts.points = DISCRETION_POINTS.length;
+    counts.counted = DISCRETION_POINTS.filter((p) => p.included).length;
+    for (const p of DISCRETION_POINTS) {
+      if (typeof p.included !== 'boolean') errors.push(`${p.id}: included must be true or false`);
+      if (p.included === false && !p.exclusionReason) errors.push(`${p.id}: excluded point needs an exclusionReason`);
+      if (p.included && p.sourceStatus !== 'verified') errors.push(`${p.id}: counted point must be verified`);
+    }
+    const { TYPE_RULES } = await server.ssrLoadModule('/src/data/codebook.ts');
+    const byId = new Map(DISCRETION_POINTS.map((p) => [p.id, p]));
+    for (const r of TYPE_RULES) for (const a of r.anchors) {
+      const p = byId.get(a);
+      if (!p || !p.included || p.type !== r.type) errors.push(`codebook: anchor ${a} for ${r.type} is not a counted point of that type`);
+    }
   } catch (e) {
     errors.push(`discretionPoints.ts: ${e.message}`);
   }
@@ -76,6 +89,7 @@ try {
     ['profileDocs', /\*\*(\d+)\*\* governance documents analysed in the country profiles/],
     ['registry', /\*\*(\d+)\*\* documents in the documents registry/],
     ['points', /\*\*(\d+)\*\* discretion points/],
+    ['counted', /\*\*(\d+)\*\* counted under the selection rule/],
     ['links', /\*\*(\d+)\*\* infrastructure-governance nexus links/],
     ['events', /\*\*(\d+)\*\* coalition timeline events/],
   ];

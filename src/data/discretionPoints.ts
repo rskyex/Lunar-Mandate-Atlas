@@ -6,7 +6,8 @@
 // locate it, formulationKind says whether characteristicFormulation is the
 // source's own words (verbatim) or the researcher's summary (paraphrase), and
 // sourceStatus says whether the wording was checked against that source.
-// Checked against the sources on 2026-10-29.
+// Checked against the sources on 2026-10-29. Types, holders, coalition tags and
+// inclusion follow the codebook in ./codebook.ts (dataset 1.3.0).
 // ═══════════════════════════════════════════════════════════════════
 
 import { documentTitles, type DocumentId } from './documents';
@@ -39,6 +40,10 @@ interface DiscretionPointEntry {
   /** Exact location in that source (article, section, page). */
   pinpoint: string;
   sourceStatus: SourceStatus;
+  /** Counted under the codebook's selection rule. */
+  included: boolean;
+  /** Why a point is shown but not counted. */
+  exclusionReason?: string;
 }
 
 export interface DiscretionPoint extends DiscretionPointEntry {
@@ -72,6 +77,7 @@ const ENTRIES: DiscretionPointEntry[] = [
     sourceUrl: OST_URL,
     pinpoint: 'Article IX, first sentence (UNOOSA, International Space Law: United Nations Instruments, ST/SPACE/61/Rev.2)',
     sourceStatus: 'verified',
+    included: true,
   },
   {
     id: 'dp-002',
@@ -79,7 +85,7 @@ const ENTRIES: DiscretionPointEntry[] = [
     documentIds: ['AA-2020'],
     section: 'Section 11, para. 4',
     type: 'open_ended_qualifier',
-    holder: 'Signatory / Drafting party (USA)',
+    holder: 'Each Signatory (self-judging)',
     implication: 'Sets the boundary for deconfliction without a central judge. The drafting party retains interpretive control over what constitutes "harmful" activity near its operations.',
     coalition: 'artemis',
     characteristicFormulation: 'The Signatories commit to seek to refrain from any intentional actions that may create harmful interference with each other’s use of outer space in their activities under these Accords.',
@@ -87,6 +93,7 @@ const ENTRIES: DiscretionPointEntry[] = [
     sourceUrl: AA_URL,
     pinpoint: 'Section 11 (Deconfliction of Space Activities), para. 4',
     sourceStatus: 'verified',
+    included: true,
   },
   {
     id: 'dp-003',
@@ -94,7 +101,7 @@ const ENTRIES: DiscretionPointEntry[] = [
     documentIds: ['AA-2020'],
     section: 'Section 11, para. 7',
     type: 'procedural_deferral',
-    holder: 'Operating State (unilateral notification)',
+    holder: 'Operating Signatory (sets and notifies the safety zone)',
     implication: 'Functional exclusion zones without treaty basis. The "notifying" state defines the perimeter, converting operational presence into territorial-adjacent authority.',
     coalition: 'artemis',
     characteristicFormulation: 'In order to implement their obligations under the Outer Space Treaty, the Signatories intend to provide notification of their activities and commit to coordinating with any relevant actor to avoid harmful interference. The area wherein this notification and coordination will be implemented to avoid harmful interference is referred to as a ‘safety zone’.',
@@ -102,6 +109,7 @@ const ENTRIES: DiscretionPointEntry[] = [
     sourceUrl: AA_URL,
     pinpoint: 'Section 11 (Deconfliction of Space Activities), para. 7, first two sentences',
     sourceStatus: 'verified',
+    included: true,
   },
   {
     id: 'dp-004',
@@ -117,6 +125,7 @@ const ENTRIES: DiscretionPointEntry[] = [
     sourceUrl: 'https://www.cnsa.gov.cn/english/n6465652/n6465653/c6811380/content.html',
     pinpoint: 'CNSA news release, 9 March 2021, second paragraph (summary of the intergovernmental MoU; the MoU text is not public)',
     sourceStatus: 'verified',
+    included: true,
   },
   {
     id: 'dp-005',
@@ -132,6 +141,7 @@ const ENTRIES: DiscretionPointEntry[] = [
     sourceUrl: 'https://www.cnsa.gov.cn/english/n6465652/n6465653/c6812150/content.html',
     pinpoint: 'Guide for Partnership (V1.0), June 2021, Preface, p. 2 (published as page images; "ROSCOMOS" as in the source)',
     sourceStatus: 'verified',
+    included: true,
   },
   {
     id: 'dp-006',
@@ -147,13 +157,15 @@ const ENTRIES: DiscretionPointEntry[] = [
     sourceUrl: null,
     pinpoint: 'Article 7 as previously cited; no official text found',
     sourceStatus: 'unverified',
+    included: false,
+    exclusionReason: 'Text unverified: the 2019 law could not be read, and it was repealed by Federal Decree-Law No. 46 of 2023.',
   },
   {
     id: 'dp-007',
     term: 'Peaceful Use (pacifist principles / national security)',
     documentIds: ['JP-BSL-2008'],
     section: 'Article 2; see also Articles 3 and 14',
-    type: 'interpretive_monopoly',
+    type: 'definitional_gap',
     holder: 'National Diet (statute, 2008); the Government in applying it',
     implication: 'The Act, passed by the Diet, keeps outer space use "in accordance with the pacifist principles of the Constitution" (Art. 2) while directing the government to promote space use "to contribute to Japan’s national security" (Art. 14). It does not define what peaceful use excludes, so the line between non-military and defensive use is drawn by the Government in applying the Act.',
     coalition: 'national',
@@ -162,6 +174,7 @@ const ENTRIES: DiscretionPointEntry[] = [
     sourceUrl: 'https://www.japaneselawtranslation.go.jp/en/laws/view/4194/en',
     pinpoint: 'Basic Space Act (Act No. 43 of 2008), Article 2 (official English translation, Japanese Law Translation database)',
     sourceStatus: 'verified',
+    included: true,
   },
   {
     id: 'dp-008',
@@ -177,13 +190,14 @@ const ENTRIES: DiscretionPointEntry[] = [
     sourceUrl: 'https://legilux.public.lu/eli/etat/leg/loi/2017/07/20/a674/jo',
     pinpoint: 'Loi du 20 juillet 2017, Art. 1er (Mémorial A 674). In English: space resources are capable of being appropriated (researcher’s translation)',
     sourceStatus: 'verified',
+    included: true,
   },
   {
     id: 'dp-009',
     term: 'Licence Requirement (draft)',
     documentIds: ['IN-SAB-2023'],
     section: 'Chapter III, section 6(1)',
-    type: 'interpretive_monopoly',
+    type: 'procedural_deferral',
     holder: 'Central Government (licensing authority under the draft)',
     implication: 'Single gateway licensing concentrates authority over all commercial space activity involving Indian entities in the Central Government. This is a 2017 draft published for consultation, not enacted law.',
     coalition: 'national',
@@ -192,21 +206,24 @@ const ENTRIES: DiscretionPointEntry[] = [
     sourceUrl: 'https://prsindia.org/files/bills_acts/bills_parliament/1970/Draft%20Space%20Activities%20Bill%202017.pdf',
     pinpoint: 'Draft Space Activities Bill, 2017 (Department of Space), Chapter III, s. 6(1), p. 5 (copy hosted by PRS Legislative Research)',
     sourceStatus: 'verified',
+    included: false,
+    exclusionReason: 'Draft bill (2017) published for consultation, never enacted.',
   },
   {
     id: 'dp-010',
     term: 'Lunar Time Standard',
     documentIds: ['US-OSTP-LTC-2024'],
     section: 'OSTP memorandum, Section 2(b)',
-    type: 'interpretive_monopoly',
+    type: 'procedural_deferral',
     holder: 'NASA (tasked by OSTP)',
     implication: 'Authority over reference frames. Whoever defines the time standard for cislunar space defines the coordination infrastructure all actors must adopt. The instrument is an OSTP policy memorandum to federal agencies, not a Presidential Directive.',
-    coalition: 'artemis',
+    coalition: 'national',
     characteristicFormulation: 'NASA, with support from partnering departments and agencies, will establish the approach to LTC as the international standard through existing standards bodies, and among the Artemis Accords signatories.',
     formulationKind: 'verbatim',
     sourceUrl: 'https://bidenwhitehouse.archives.gov/wp-content/uploads/2024/04/Celestial-Time-Standardization-Policy.pdf',
     pinpoint: 'OSTP memorandum of 2 April 2024, Section 2 (Policy Guidance), item b',
     sourceStatus: 'verified',
+    included: true,
   },
   {
     id: 'dp-011',
@@ -214,7 +231,7 @@ const ENTRIES: DiscretionPointEntry[] = [
     documentIds: ['ESA-STMT-2023'],
     section: 'FAQ: "What are the Artemis Accords?"',
     type: 'procedural_deferral',
-    holder: 'ESA Member States (individually)',
+    holder: 'ESA member states, each deciding whether to sign',
     implication: 'ESA participates operationally in Artemis (Gateway) but cannot sign the Accords; signature is left to its member states one by one, creating dual-track legitimation. No ESA statement "welcoming the principles" was found; the earlier wording is withdrawn.',
     coalition: 'artemis',
     characteristicFormulation: 'they are only open to signature by individual states, which is why ESA is not a signatory nor is it involved in the process',
@@ -222,6 +239,7 @@ const ENTRIES: DiscretionPointEntry[] = [
     sourceUrl: 'https://www.esa.int/Science_Exploration/Human_and_Robotic_Exploration/Gateway_MoU_and_Artemis_Accords_FAQs',
     pinpoint: 'ESA, Gateway MoU and Artemis Accords – FAQs, answer to "What are the Artemis Accords?"',
     sourceStatus: 'verified',
+    included: true,
   },
   {
     id: 'dp-012',
@@ -237,6 +255,7 @@ const ENTRIES: DiscretionPointEntry[] = [
     sourceUrl: 'https://www.cnsa.gov.cn/english/n6465684/n6760328/n6760329/c6813197/content.html',
     pinpoint: 'SCIO briefing on the white paper "China’s Space Program: A 2021 Perspective" (transcript on CNSA site, dated 2022-01-30), remarks of Wu Yanhua',
     sourceStatus: 'verified',
+    included: true,
   },
   {
     id: 'dp-013',
@@ -252,13 +271,14 @@ const ENTRIES: DiscretionPointEntry[] = [
     sourceUrl: AA_URL,
     pinpoint: 'Section 1 (Purpose and Scope), second paragraph, last sentence',
     sourceStatus: 'verified',
+    included: true,
   },
   {
     id: 'dp-015',
     term: 'Authorisation by IN-SPACe',
     documentIds: ['IN-ISP-2023'],
     section: 'Definitions, no. 1; Section 5',
-    type: 'definitional_gap',
+    type: 'procedural_deferral',
     holder: 'IN-SPACe, subject to Government directives',
     implication: 'Authorisation is defined only as permission granted by IN-SPACe; the criteria are left to IN-SPACe "subject to relevant Government directives" (Section 5). A policy document, not legislation.',
     coalition: 'national',
@@ -267,6 +287,7 @@ const ENTRIES: DiscretionPointEntry[] = [
     sourceUrl: 'https://www.isro.gov.in/media_isro/pdf/IndianSpacePolicy2023.pdf',
     pinpoint: 'Indian Space Policy 2023, Definitions, no. 1, p. 3',
     sourceStatus: 'verified',
+    included: true,
   },
   {
     id: 'dp-016',
@@ -282,6 +303,7 @@ const ENTRIES: DiscretionPointEntry[] = [
     sourceUrl: 'https://www.nasa.gov/wp-content/uploads/2025/02/lunanet-interoperability-specification-v5-baseline.pdf',
     pinpoint: 'LunaNet Interoperability Specification, Version 5 (29 January 2025), Section 1, p. 9; authorship in Section 1.1',
     sourceStatus: 'verified',
+    included: true,
   },
   {
     id: 'dp-017',
@@ -291,12 +313,13 @@ const ENTRIES: DiscretionPointEntry[] = [
     type: 'definitional_gap',
     holder: 'National legislatures (Luxembourg, USA)',
     implication: 'The boundary between "ownership of extracted resources" (permitted) and "appropriation of celestial bodies" (prohibited by OST) is drawn unilaterally by national legislation without international adjudication. The US Act pairs the grant of rights with a disclaimer of sovereignty over any celestial body (sec. 403).',
-    coalition: 'artemis',
+    coalition: 'national',
     characteristicFormulation: 'A United States citizen engaged in commercial recovery of an asteroid resource or a space resource under this chapter shall be entitled to any asteroid resource or space resource obtained, including to possess, own, transport, use, and sell the asteroid resource or space resource obtained in accordance with applicable law, including the international obligations of the United States.',
     formulationKind: 'verbatim',
     sourceUrl: 'https://www.govinfo.gov/content/pkg/PLAW-114publ90/html/PLAW-114publ90.htm',
     pinpoint: 'Pub. L. 114-90, Title IV, sec. 402, adding 51 U.S.C. 51303',
     sourceStatus: 'verified',
+    included: true,
   },
 ];
 

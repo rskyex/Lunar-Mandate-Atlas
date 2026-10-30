@@ -1,5 +1,41 @@
 # Changelog
 
+## Dataset 1.3.0 — 2026-10-30
+
+Framework and claims:
+
+- "Beetham-Koyanagi Legitimation Triad (Cambridge 2026)" is now described as a three-stage coding
+  scheme adapted from David Beetham's dimensions of legitimacy (*The Legitimation of Power*, 1991),
+  the author's framework (README, home page, page description, code comments).
+- The "core finding" is restated as a working proposition that the registry illustrates; the page
+  says the data does not measure breadth of claim or authority and was not selected to test it.
+
+Codebook (shown in the registry view; `src/data/codebook.ts`):
+
+- Unit definition; for each of the five types a definition, a decision test (applied in order) and
+  an anchor example; a holder rule; a coalition rule (tag follows the instrument); a selection
+  rule (adopted, readable instruments only). New fields `included` and `exclusionReason`.
+- Recode:
+  - dp-002 holder: "Signatory / Drafting party (USA)" → "Each Signatory (self-judging)", as dp-013.
+  - dp-003 holder: "Operating Signatory (sets and notifies the safety zone)".
+  - dp-007 Japan: interpretive monopoly → definitional gap.
+  - dp-010 lunar time: interpretive monopoly → procedural deferral; coalition artemis → national.
+  - dp-015 India authorisation: definitional gap → procedural deferral.
+  - dp-017: coalition artemis → national.
+  - dp-009 (2017 draft bill): procedural deferral; shown, not counted (draft).
+  - dp-006 (UAE): shown, not counted (text unverified; law repealed 2023).
+- Result: 16 points shown, 14 counted. By type: open-ended qualifier 3, procedural deferral 7,
+  definitional gap 4, interpretive monopoly 0, carve-out 0. By coalition: OST 1, Artemis 5,
+  ILRS 3, national 5. The empty categories are kept and reported.
+- `check:docs` also checks the codebook fields, that anchors are counted points of their type,
+  and the README counted figure.
+
+Rules density:
+
+- Relabelled "rules specificity (author judgement, 1–10)"; the "binding provisions" description
+  and the "RULES DENSITY →" axis cue are removed; the bar carries a tooltip and accessible label.
+  Values are unchanged.
+
 ## Dataset 1.2.0 — 2026-10-29
 
 Every discretion point now records `sourceUrl`, `pinpoint`, `formulationKind`

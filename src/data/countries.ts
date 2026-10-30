@@ -8,7 +8,7 @@ import { getDocument, type DocumentId } from './documents';
 
 export type Coalition = 'artemis' | 'ilrs' | 'dual' | 'independent';
 
-// ─── Stage 1-3 Analysis Framework (Beetham-Koyanagi) ─────────────
+// ─── Stage 1-3 coding scheme (author's framework, adapted from Beetham) ─
 export interface Stage1_HumanityConstruction {
   referent: string;        // Who does this document claim to represent?
   referentCategory: HumanityReferent;
@@ -64,7 +64,8 @@ export interface Country {
   primaryAudience: string;
   legitimationStrategy: string;
   documents: GovernanceDocument[];
-  rulesDensity: number; // 1-10 scale: density of binding provisions (author judgement; no rubric yet)
+  /** Rules specificity, 1-10: the author's judgement of how specific the country's rules are. No rubric; not a measure of binding provisions. */
+  rulesDensity: number;
   universalistClaim: string;
   specificAuthority: string;
 }
